@@ -5,19 +5,19 @@
 
 using namespace std;
 
-void printBoard(char board[3][4]){
-    for (int i = 0; i < 12; i++)
+void printBoard(char board[8][9]){
+    for (int i = 0; i < 72; i++)
     {
-        if(i%4!=3)
+        if(i%9!=8)
         {
-            cout<<" "<<board[i/4][i%4]; 
-            if(i%4<2)
+            cout<<" "<<board[i/9][i%9]; 
+            if(i%9<7)
                 cout<<" |";
         }
         else
         {
-            if(i/4<2)
-                cout<<endl<< "---+---+---";
+            if(i/9<7)
+                cout<<endl<< "---+---+---+---+---+---+---+---";
             cout<<endl; 
         }
     }
