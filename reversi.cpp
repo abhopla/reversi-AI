@@ -13,9 +13,8 @@ int main(){
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
-
-    bool place = check_position(board, 0, 0);
-    cout << place << endl;
-
     printBoard(board);
+
+    int moves = legal_moves(board, 'G');
+    cout <<"moves: " << moves << endl;
 }
