@@ -23,5 +23,4 @@ int main(){
     cout <<"moves: " << moves << endl;
 
     play();
-    positionParse (35);
 }
