@@ -40,13 +40,50 @@ int check_position(char board[8][9], int x, int y){
 }
 
 
+
+int * positionParse (int pos){
+  int coords[2];
+  int *coordP = coords;
+
+  int y = floor((pos/8));
+  int x  = (pos - (8 * y));
+
+  coords[0] = y;
+  coords[1] = x;
+
+  return  coordP;
+
+}
+
+
+
+// Parse the coordinates into a position 
+int coordinates(int y, int x){
+  int temp_y = y + 1;
+  int pos = (temp_y*8) - (8 - x);
+
+  return pos;
+
+}
+
+
+
 // input current game state and player and return array of all legal moves
-int legal_moves(char board[8][9], char player){
+int *legal_moves(char board[8][9], char player){
 
     int count = 0;
+    static int moves_list[64];
+
+    // set all array values to -1
+    for (int i=0; i<64; i++){
+        moves_list[i] = -1;
+        // cout << moves_list[i] << " ";
+    }
     
-    //iterate through every position on board
+    // iterate through every position on board
+    // i going down rows
     for (int i=0; i<8; i++){
+        // j going left to right cols
         for (int j=0; j<8; j++){
             // check for empty position
             if (check_position(board, j, i) == 1){
@@ -58,7 +95,9 @@ int legal_moves(char board[8][9], char player){
                         int k = j+1;
                         while(k < 9){
                             if (board[i][k] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
+                                cout << moves_list[count] << endl;
+                                cout << count << endl;
                                 count++;
                             }
                             k++;
@@ -70,7 +109,7 @@ int legal_moves(char board[8][9], char player){
                         int k = j-1;
                         while(k >= 0){
                             if (board[i][k] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -80,9 +119,9 @@ int legal_moves(char board[8][9], char player){
                     else if (board[i+1][j] == 'W'){
                         // check along below the position and confirm that there is a black piece after consecutive white pieces
                         int k = i+1;
-                        while(k < 9){
+                        while(k < 8){
                             if (board[k][j] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -94,7 +133,7 @@ int legal_moves(char board[8][9], char player){
                         int k = i-1;
                         while(k >= 0){
                             if (board[k][j] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -105,9 +144,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (below right) position and confirm that there is a black piece after consecutive white pieces
                         int k = i+1;
                         int r = j+1;
-                        while(k < 9 && r < 9 ){
+                        while(k < 8 && r < 8 ){
                             if (board[k][r] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -119,9 +158,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
                         int k = i-1;
                         int r = j+1;
-                        while(k >= 0 && r < 9){
+                        while(k >= 0 && r < 8){
                             if (board[k][r] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -133,9 +172,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
                         int k = i+1;
                         int r = j-1;
-                        while(k < 9 && r >= 0){
+                        while(k < 8 && r >= 0){
                             if (board[k][r] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -149,7 +188,7 @@ int legal_moves(char board[8][9], char player){
                         int r = j-1;
                         while(k >= 0 && r >= 0){
                             if (board[k][r] == 'B'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -163,9 +202,9 @@ int legal_moves(char board[8][9], char player){
                     if ( board[i][j+1] == 'B'){
                         // check along the right of the position and confirm that there is a white piece after consecutive white pieces
                         int k = j+1;
-                        while(k < 9){
+                        while(k < 8){
                             if (board[i][k] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -177,7 +216,7 @@ int legal_moves(char board[8][9], char player){
                         int k = j-1;
                         while(k >= 0){
                             if (board[i][k] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -187,9 +226,9 @@ int legal_moves(char board[8][9], char player){
                     else if (board[i+1][j] == 'B'){
                         // check along below the position and confirm that there is a white piece after consecutive white pieces
                         int k = i+1;
-                        while(k < 9){
+                        while(k < 8){
                             if (board[k][j] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -201,7 +240,7 @@ int legal_moves(char board[8][9], char player){
                         int k = i-1;
                         while(k >= 0){
                             if (board[k][j] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -212,9 +251,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (below right) position and confirm that there is a white piece after consecutive white pieces
                         int k = i+1;
                         int r = j+1;
-                        while(k < 9 && r < 9 ){
+                        while(k < 8 && r < 8 ){
                             if (board[k][r] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -226,9 +265,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
                         int k = i-1;
                         int r = j+1;
-                        while(k >= 0 && r < 9){
+                        while(k >= 0 && r < 8){
                             if (board[k][r] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -240,9 +279,9 @@ int legal_moves(char board[8][9], char player){
                         // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
                         int k = i+1;
                         int r = j-1;
-                        while(k < 9 && r >= 0){
+                        while(k < 8 && r >= 0){
                             if (board[k][r] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k++;
@@ -256,7 +295,7 @@ int legal_moves(char board[8][9], char player){
                         int r = j-1;
                         while(k >= 0 && r >= 0){
                             if (board[k][r] == 'W'){
-                                cout << "i: " << i << " j: " << j << endl;
+                                moves_list[count] = coordinates(i, j);
                                 count++;
                             }
                             k--;
@@ -267,7 +306,7 @@ int legal_moves(char board[8][9], char player){
             }
         }
     }
-    return count;
+    return moves_list;
 }
 
 
@@ -313,33 +352,6 @@ int game_state(char board[8][9]){
 }
 
 
-int * positionParse (int pos){
-  int coords[2];
-
-  int y = floor((pos/8));
-  int x  = (pos - (8 * y));
-
-  coords[0] = y;
-  coords[1] = x;
-
-  return  coords;
-
-
-
-}
-
-// Parse the coordinates into a position 
-int coordinates(int y, int x){
-  int temp_y = y + 1;
-  int pos = (temp_y*8) - (8 - x);
-
-
-  return pos;
-
-
-}
-
-
 
 // Function to determine how to play the game 
 //Allows the player to choose the color of chip 
@@ -363,7 +375,7 @@ void play (){
 
     // This while loop checks for invalid numbers 
     while(check == 0){
-      cout << "invalid number please try again: ";
+      cout << "invalid number please try again: " << endl;
       cin >> choice;
       if((choice == 1) || (choice == 2)){
         check = 1;
@@ -371,18 +383,18 @@ void play (){
 
     }
 
-        char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
+    char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
 
     if(choice == 1){
-      cout << "You are going first! ";
+      cout << "You are going first! " << endl;
       int * coordinates;
 
       coordinates = positionParse(20);
@@ -391,13 +403,10 @@ void play (){
 
       printBoard(board);
 
-
-
-
     }
 
     if(choice == 2){
-      cout << "You are going second! ";
+      cout << "You are going second! " << endl;
 
     }
 
