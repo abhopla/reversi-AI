@@ -263,13 +263,50 @@ int legal_moves(char board[8][9], char player){
                         }
                     }
                 }
-
-
             }
+        }
+    }
+    return count;
+}
 
+
+
+// check to see if game is complete
+// if game incomplete return 0 
+// if black win returns 1
+// if white win returns 2
+// if tie return 3
+int game_state(char board[8][9]){
+
+    int blk = 0;
+    int whi = 0;
+
+    // go through every position, if blank found return 0, otherwise count white and black tiles
+    for (int i=0; i<8; i++){
+        for (int j=0; j<8; j++){
+            
+            if (board[i][j] == ' '){
+                return 0;
+            }
+            else if (board[i][j] == 'B'){
+                blk++;
+            }
+            else if (board[i][j] == 'W'){
+                whi++;
+            }
         }
     }
 
-    return count;
+    if (blk > whi){
+        return 1;
+    }
+    else if (blk < whi){
+        return 2;
+    }
+    else if (blk == whi){
+        return 3;
+    }
+
+    return 0;
 
 }
