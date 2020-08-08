@@ -96,8 +96,8 @@ int *legal_moves(char board[8][9], char player){
                         while(k < 9){
                             if (board[i][k] == 'B'){
                                 moves_list[count] = coordinates(i, j);
-                                cout << moves_list[count] << endl;
-                                cout << count << endl;
+                                // cout << moves_list[count] << endl;
+                                // cout << count << endl;
                                 count++;
                             }
                             k++;
@@ -306,7 +306,14 @@ int *legal_moves(char board[8][9], char player){
             }
         }
     }
-    return moves_list;
+
+    static int *valid_moves = new int[count];
+
+    for (int i=0; i<count; i++){
+        valid_moves[i] = moves_list[i];
+    }
+
+    return valid_moves;
 }
 
 
