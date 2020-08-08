@@ -48,11 +48,22 @@ int legal_moves(char board[8][9], char player){
         for (int j=0; j<8; j++){
 
             if (check_position(board, j, i) == 1){
-                // check if position has a piece next to it
-                if(board[i][j+1] == 'B' || board[i][j-1] == 'B' || board[i+1][j] == 'B' || board[i-1][j] == 'B' || board[i][j+1] == 'W' || board[i][j-1] == 'W' || board[i+1][j] == 'W' || board[i-1][j] == 'W'){
+                // if player color is black
+                if (player == 'b'){
+                    if( board[i][j+1] == 'W' || board[i][j-1] == 'W' || board[i+1][j] == 'W' || board[i-1][j] == 'W' || board[i+1][j+1] == 'W'|| board[i-1][j+1] == 'W' || board[i+1][j-1] == 'W' || board[i-1][j-1] == 'W'){
                     cout << "i: " << i << " j: " << j << endl;
                     count++;
+                    }
                 }
+                // if player color is white
+                else if (player == 'w'){
+                    if (board[i][j+1] == 'B' || board[i][j-1] == 'B' || board[i+1][j] == 'B' || board[i-1][j] == 'B' || board[i+1][j+1] == 'B'|| board[i-1][j+1] == 'B' || board[i+1][j-1] == 'B' || board[i-1][j-1] == 'B'){
+                        cout << "i: " << i << " j: " << j << endl;
+                        count++;
+                    }
+                }
+                
+
             }
 
         }
