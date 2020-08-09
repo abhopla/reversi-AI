@@ -23,16 +23,13 @@ class Reversi{
 
     // print the current state of the game board
     void printBoard(){
-        for (int i = 0; i < 72; i++)
-        {
-            if(i%9!=8)
-            {
+        for (int i = 0; i < 72; i++){
+            if(i%9!=8){
                 cout<<" "<<board[i/9][i%9]; 
                 if(i%9<7)
                     cout<<" |";
             }
-            else
-            {
+            else{
                 if(i/9<7)
                     cout<<endl<< "---+---+---+---+---+---+---+---";
                 cout<<endl; 
@@ -106,8 +103,6 @@ class Reversi{
                             while(k < 9){
                                 if (board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
-                                    // cout << moves_list[count] << endl;
-                                    // cout << count << endl;
                                     count++;
                                 }
                                 k++;
@@ -369,6 +364,274 @@ class Reversi{
 
 
 
+    // take user position input and place it on game board
+    // make corresponding piece changes based on move
+    void make_move(int position, int color){
+        int * coordinates;
+
+        coordinates = positionParse(position);
+
+        int y = coordinates[0];
+        int x = coordinates[1];
+
+        //if player making move is player black
+        if (color == 'b'){
+            // check position above
+            if (board[y-1][x] == 'W'){
+                int k = y-1;
+                while ( k >=0 ){
+                    if (board[k][x] == 'B'){
+                        while (k < y){
+                            board[k+1][x] = 'B';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top right diagonal
+            if (board[y-1][x+1] == 'W'){
+                int k = y-1;
+                int r = x+1;
+                while ( k >=0 && r < 8){
+                    if (board[k][r] == 'B'){
+                        while (k < y && r > x){
+                            board[k+1][r-1] = 'B';
+                            k++;
+                            r--;
+                        }
+                        break;
+                    }
+                    k--;
+                    r++;
+                }
+            }
+            //check position right
+            if (board[y][x+1] == 'W'){
+                int k = x+1;
+                while ( k < 8 ){
+                    if (board[y][k] == 'B'){
+                        while (k > x){
+                            board[y][k-1] = 'B';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom right diagonal
+            if (board[y+1][x+1] == 'W'){
+                int k = y+1;
+                int r = x+1;
+                while ( k < 8 && r < 8){
+                    if (board[k][r] == 'B'){
+                        while (k > y && r > x){
+                            board[k-1][r-1] = 'B';
+                            k--;
+                            r--;
+                        }
+                        break;
+                    }
+                    k++;
+                    r++;
+                }
+            }
+            //check position below 
+            if (board[y+1][x] == 'W'){
+                int k = y+1;
+                while ( k < 8 ){
+                    if (board[k][x] == 'B'){
+                        while (k > y){
+                            board[k-1][x] = 'B';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom left diagonal 
+            if (board[y+1][x-1] == 'W'){
+                int k = y+1;
+                int r = x-1;
+                while ( k < 8 && r >= 0){
+                    if (board[k][r] == 'B'){
+                        while (k > y && r < x){
+                            board[k-1][r+1] = 'B';
+                            k--;
+                            r++;
+                        }
+                        break;
+                    }
+                    k++;
+                    r--;
+                }
+            }
+            //check position left  
+            if (board[y][x-1] == 'W'){
+                int k = x-1;
+                while ( k >= 0 ){
+                    if (board[y][k] == 'B'){
+                        while (k < x){
+                            board[y][k+1] = 'B';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top left diagonal 
+            if (board[y-1][x-1] == 'W'){
+                int k = y-1;
+                int r = x-1;
+                while ( k >= 0 && r >= 0){
+                    if (board[k][r] == 'B'){
+                        while (k < y && r < x){
+                            board[k+1][r+1] = 'B';
+                            k++;
+                            r++;
+                        }
+                        break;
+                    }
+                    k--;
+                    r--;
+                }
+            }
+        }
+        //if player making move is player white
+        else if(color == 'w'){
+            // check position above
+            if (board[y-1][x] == 'B'){
+                int k = y-1;
+                while ( k >=0 ){
+                    if (board[k][x] == 'W'){
+                        while (k < y){
+                            board[k+1][x] = 'W';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top right diagonal
+            if (board[y-1][x+1] == 'B'){
+                int k = y-1;
+                int r = x+1;
+                while ( k >=0 && r < 8){
+                    if (board[k][r] == 'W'){
+                        while (k < y && r > x){
+                            board[k+1][r-1] = 'W';
+                            k++;
+                            r--;
+                        }
+                        break;
+                    }
+                    k--;
+                    r++;
+                }
+            }
+            //check position right
+            if (board[y][x+1] == 'B'){
+                int k = x+1;
+                while ( k < 8 ){
+                    if (board[y][k] == 'W'){
+                        while (k > x){
+                            board[y][k-1] = 'W';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom right diagonal
+            if (board[y+1][x+1] == 'B'){
+                int k = y+1;
+                int r = x+1;
+                while ( k < 8 && r < 8){
+                    if (board[k][r] == 'W'){
+                        while (k > y && r > x){
+                            board[k-1][r-1] = 'W';
+                            k--;
+                            r--;
+                        }
+                        break;
+                    }
+                    k++;
+                    r++;
+                }
+            }
+            //check position below 
+            if (board[y+1][x] == 'B'){
+                int k = y+1;
+                while ( k < 8 ){
+                    if (board[k][x] == 'W'){
+                        while (k > y){
+                            board[k-1][x] = 'W';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom left diagonal 
+            if (board[y+1][x-1] == 'B'){
+                int k = y+1;
+                int r = x-1;
+                while ( k < 8 && r >= 0){
+                    if (board[k][r] == 'W'){
+                        while (k > y && r < x){
+                            board[k-1][r+1] = 'W';
+                            k--;
+                            r++;
+                        }
+                        break;
+                    }
+                    k++;
+                    r--;
+                }
+            }
+            //check position left  
+            if (board[y][x-1] == 'B'){
+                int k = x-1;
+                while ( k >= 0 ){
+                    if (board[y][k] == 'W'){
+                        while (k < x){
+                            board[y][k+1] = 'W';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top left diagonal 
+            if (board[y-1][x-1] == 'B'){
+                int k = y-1;
+                int r = x-1;
+                while ( k >= 0 && r >= 0){
+                    if (board[k][r] == 'W'){
+                        while (k < y && r < x){
+                            board[k+1][r+1] = 'W';
+                            k++;
+                            r++;
+                        }
+                        break;
+                    }
+                    k--;
+                    r--;
+                }
+            }
+        }
+    }
+
+
+
     // Function to determine how to play the game 
     //Allows the player to choose the color of chip 
     // they want 
@@ -434,8 +697,10 @@ class Reversi{
                 // Legal moves check 
 
 
-                coordinates = positionParse(player_choice);
-                board[coordinates[0]][coordinates[1]] = 'B';
+                // coordinates = positionParse(player_choice);
+                // board[coordinates[0]][coordinates[1]] = 'B';
+                
+
                 cout<< "The current board state is: " << endl <<endl;
                 printBoard();
 
@@ -471,11 +736,7 @@ class Reversi{
                     cout << "The game was a tie"<<endl;
                     break;
                 }
-
-
-
             }
-
         }
 
         if(choice == 2){
