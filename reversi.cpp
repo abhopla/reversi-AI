@@ -19,8 +19,8 @@ int main(){
 
     printBoard(board_2);
 
-    int moves = legal_moves(board_2, 'G');
-    cout <<"moves: " << moves << endl;
+    // int moves = legal_moves(board_2, 'G');
+    // cout <<"moves: " << moves << endl;
 
-    play();
+    // play();
 }
