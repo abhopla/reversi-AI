@@ -6,6 +6,9 @@
 
 int main(){
 
-    play();
-    
+    Reversi game;
+
+    game.play();
+
+
 }
