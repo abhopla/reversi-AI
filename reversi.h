@@ -358,6 +358,23 @@ int game_state(char board[8][9]){
 
 }
 
+// Function to declare the game board
+char (*(game_board)())[9]{
+   static char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+
+  return board;
+
+
+
+}
+
 
 
 // Function to determine how to play the game 
@@ -390,25 +407,100 @@ void play (){
 
     }
 
-    char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+  // Getting the game board from the function 
+    char (*board)[9];
+    board = game_board();
 
 
     if(choice == 1){
       cout << "You are going first! " << endl;
       int * coordinates;
+      int * get_legal_1;
+      int player_choice;
+      int available_moves_1[64];
+      int move_count = 0;
+      int state_check;
 
-      coordinates = positionParse(20);
+      for (int i =0; i < 65; i++){
+        available_moves_1[i] = i;
+        // cout<< available_moves_1[i] <<" ";
+      }
+    
+    // available_moves_1[64] acts as a sentinal value
+    // once all the avaliable moves have been played 
+    // available_moves_1[64] will changed to 0 thus 
+    // exiting the loop 
+    while(available_moves_1[64] != 0){
 
-      board[coordinates[0]][coordinates[1]] = 'A';
+      get_legal_1 = legal_moves(board, 'b');
 
+      int len_legal = sizeof(get_legal_1)/sizeof(get_legal_1[0]);
+
+      for(int i = 0; i < len_legal; i++){
+        cout << get_legal_1[i] << " " << endl;
+      }
+
+      cout<<"This is the length" << len_legal<<endl;
+      cout << "Please pick a position on the board: ";
+
+      // Error checking for the type of input 
+      while(!(cin >> player_choice)){
+      cout << "Invalid type of argument! Please enter an integer to proceed: ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      }
+
+      // Legal moves check 
+
+
+      coordinates = positionParse(player_choice);
+      board[coordinates[0]][coordinates[1]] = 'B';
+      cout<< "The current board state is: " << endl <<endl;
       printBoard(board);
+
+      for (int j = 0; j < 64; j++){
+        if(available_moves_1[j] == player_choice){
+          available_moves_1[j] == 0;
+        }
+      }
+
+      for (int k = 0; k < 64; k++){
+        if(available_moves_1[k] == 0){
+          move_count ++;
+        }
+      }
+
+
+      if(move_count == 64){
+        available_moves_1[64] = 0;
+      }
+
+
+      state_check = game_state(board);
+
+      if(state_check == 0){
+        continue;
+      } else if(state_check == 1){
+        cout << "You won!"<<endl;
+        break;
+      } else if(state_check == 2){
+        cout << "You lost!"<<endl;
+        break;
+      }else{
+        cout << "The game was a tie"<<endl;
+        break;
+      }
+
+
+
+    }
+
+
+      // coordinates = positionParse(20);
+
+      // board[coordinates[0]][coordinates[1]] = 'A';
+
+      // printBoard(board);
 
     }
 
