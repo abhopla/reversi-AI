@@ -19,6 +19,8 @@ class Reversi{
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
+    int num_of_valid_moves = 0;
+
 
 
     // print the current state of the game board
@@ -312,6 +314,8 @@ class Reversi{
             }
         }
 
+        num_of_valid_moves = count;
+        // cout << "this is the number of moves " << num_of_valid_moves << endl;
         static int *valid_moves = new int[count];
 
         for (int i=0; i<count; i++){
@@ -630,113 +634,133 @@ class Reversi{
         }
     }
 
+    // Checks whether the player wants to go first or second 
+    // and validates the input 
+    // sends back their answer 
+    int validate_first_or_second(){
+      int choice;
+      cout << "Please choose whether you would like to 1st or 2nd! (1/2):  ";
+      int check = 0;
 
-
-    // Function to determine how to play the game 
-    //Allows the player to choose the color of chip 
-    // they want 
-
-    void play (){
-    int choice;
-    cout << "Please choose whether you would like to 1st ot 2nd! (1/2):  ";
-    int check = 0;
-
-        // This while loop is checking for invalid types 
+      // This while loop is checking for invalid types 
+      while(check == 0){
         while(!(cin >> choice)){
-            cout << "Invalid type of argument! Please enter an integer to proceed: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+          cout << "Invalid type of argument! Please enter an integer to proceed: ";
+          cin.clear();
+          cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         if((choice == 1) || (choice == 2)){
-        check = 1;
+          check = 1;
+          break;
         }
 
-        // This while loop checks for invalid numbers 
-        while(check == 0){
-            cout << "invalid number please try again: " << endl;
-            cin >> choice;
-            if((choice == 1) || (choice == 2)){
-                check = 1;
-            }
+        cout << "Invalid input please enter (1/2): ";
+
+
+      }
+
+
+      return choice;
+
+    }
+
+
+    // Purpose of this function is to validate 
+    // player moves 
+    // it needs the move and the color of their chips  
+    int valid_player_choice(int color){
+      int * legal_move_arr = legal_moves(color);
+      int count = 0;
+      int move = 0;
+      int num_check = 0;
+      int toggle = 0;
+
+
+      cout << "These are the legal moves you are allowed to make: ";
+      for(int i = 0; i < num_of_valid_moves; i++){
+        cout<< legal_move_arr[i] << " ";
+      }
+      cout << "\n";
+      cout << "Please select a move: ";
+
+      while(num_check == 0){
+        while(!(cin >> move)){
+          cout << "Invalid type of argument! Please enter an integer to proceed: ";
+          cin.clear();
+          cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        for(int j = 0; j < num_of_valid_moves; j++){
+          if(legal_move_arr[j] != move){
+              count ++;
+              continue;
+          } else{
+              toggle = 1;
+              num_check = 1;
+              break;
+          }
 
         }
 
+        if(toggle == 0){
+          cout << "Invalid input please try again: ";
+        }
 
+        
+
+
+      } 
+
+      
+
+
+      return move;
+
+
+    }
+
+
+
+    // Function to determine how to play the game 
+    //Gives the user the choice of going first 
+    // or second 
+
+    void play (){
+
+    int choice = validate_first_or_second();
+   
         if(choice == 1){
             cout << "You are going first! " << endl;
-            int * coordinates;
-            int * get_legal_1;
-            int player_choice;
+            int player_choice_1;
+            int player_choice_2;
             int available_moves_1[64];
             int move_count = 0;
             int state_check;
 
-            for (int i =0; i < 65; i++){
-                available_moves_1[i] = i;
-                // cout<< available_moves_1[i] <<" ";
+            while((num_of_valid_moves != 0) || (state_check == 0)){
+
+              // First player goes 
+              player_choice_1 = valid_player_choice('b');
+              make_move(player_choice_1, 'b');
+
+              cout << "This is the current board state: "<<endl;
+              printBoard();
+
+              //Second player goes
+               player_choice_2 = valid_player_choice('w');
+               make_move(player_choice_2, 'w');
+
+              cout << "This is the current board state: "<<endl;
+              printBoard();
+               
+               state_check = game_state();
+
             }
+
             
-            // available_moves_1[64] acts as a sentinal value
-            // once all the avaliable moves have been played 
-            // available_moves_1[64] will changed to 0 thus 
-            // exiting the loop 
-            while(available_moves_1[64] != 0){
 
-                get_legal_1 = legal_moves('b');
-
-                cout << "Please pick a position on the board: ";
-
-                // Error checking for the type of input 
-                while(!(cin >> player_choice)){
-                    cout << "Invalid type of argument! Please enter an integer to proceed: ";
-                    cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                }
-
-                // Legal moves check 
-
-
-                // coordinates = positionParse(player_choice);
-                // board[coordinates[0]][coordinates[1]] = 'B';
-                
-
-                cout<< "The current board state is: " << endl <<endl;
-                printBoard();
-
-                for (int j = 0; j < 64; j++){
-                    if(available_moves_1[j] == player_choice){
-                    available_moves_1[j] == 0;
-                    }
-                }
-
-                for (int k = 0; k < 64; k++){
-                    if(available_moves_1[k] == 0){
-                    move_count ++;
-                    }
-                }
-
-
-                if(move_count == 64){
-                    available_moves_1[64] = 0;
-                }
-
-
-                state_check = game_state();
-
-                if(state_check == 0){
-                    continue;
-                } else if(state_check == 1){
-                    cout << "You won!"<<endl;
-                    break;
-                } else if(state_check == 2){
-                    cout << "You lost!"<<endl;
-                    break;
-                }else{
-                    cout << "The game was a tie"<<endl;
-                    break;
-                }
-            }
+            
         }
 
         if(choice == 2){
@@ -748,7 +772,6 @@ class Reversi{
 
 
 };
-
 
 
 
