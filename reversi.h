@@ -111,7 +111,7 @@ class Reversi{
                             }
                         }
                         // position to the left is white
-                        else if (board[i][j-1] == 'W'){
+                        if (board[i][j-1] == 'W'){
                             // check along the left of the position and confirm that there is a black piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
@@ -123,7 +123,7 @@ class Reversi{
                             }
                         }
                         // position below is white
-                        else if (board[i+1][j] == 'W'){
+                        if (board[i+1][j] == 'W'){
                             // check along below the position and confirm that there is a black piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
@@ -135,7 +135,7 @@ class Reversi{
                             }
                         }
                         // position above is white
-                        else if (board[i-1][j] == 'W'){
+                        if (board[i-1][j] == 'W'){
                             // check along above the position and confirm that there is a black piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
@@ -147,7 +147,7 @@ class Reversi{
                             }
                         }
                         // position to the bottom right is white
-                        else if (board[i+1][j+1] == 'W'){
+                        if (board[i+1][j+1] == 'W'){
                             // check along the diagonal (below right) position and confirm that there is a black piece after consecutive white pieces
                             int k = i+1;
                             int r = j+1;
@@ -161,7 +161,7 @@ class Reversi{
                             }
                         }
                         // position to the top right is white
-                        else if (board[i-1][j+1] == 'W'){
+                        if (board[i-1][j+1] == 'W'){
                             // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
                             int k = i-1;
                             int r = j+1;
@@ -175,7 +175,7 @@ class Reversi{
                             }
                         }
                         // position to the bottom left is white
-                        else if (board[i+1][j-1] == 'W'){
+                        if (board[i+1][j-1] == 'W'){
                             // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
                             int k = i+1;
                             int r = j-1;
@@ -189,7 +189,7 @@ class Reversi{
                             }
                         }
                         // position to the top left is white
-                        else if (board[i-1][j-1] == 'W'){
+                        if (board[i-1][j-1] == 'W'){
                             // check along the diagonal (below left) position and confirm that there is a black piece after consecutive white pieces
                             int k = i-1;
                             int r = j-1;
@@ -218,7 +218,7 @@ class Reversi{
                             }
                         }
                         // position to the left is black
-                        else if (board[i][j-1] == 'B'){
+                        if (board[i][j-1] == 'B'){
                             // check along the left of the position and confirm that there is a white piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
@@ -230,7 +230,7 @@ class Reversi{
                             }
                         }
                         // position below is black
-                        else if (board[i+1][j] == 'B'){
+                        if (board[i+1][j] == 'B'){
                             // check along below the position and confirm that there is a white piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
@@ -242,7 +242,7 @@ class Reversi{
                             }
                         }
                         // position above is black
-                        else if (board[i-1][j] == 'B'){
+                        if (board[i-1][j] == 'B'){
                             // check along above the position and confirm that there is a white piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
@@ -254,7 +254,7 @@ class Reversi{
                             }
                         }
                         // position to the bottom right is black
-                        else if (board[i+1][j+1] == 'B'){
+                        if (board[i+1][j+1] == 'B'){
                             // check along the diagonal (below right) position and confirm that there is a white piece after consecutive white pieces
                             int k = i+1;
                             int r = j+1;
@@ -268,7 +268,7 @@ class Reversi{
                             }
                         }
                         // position to the top right is black
-                        else if (board[i-1][j+1] == 'B'){
+                        if (board[i-1][j+1] == 'B'){
                             // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
                             int k = i-1;
                             int r = j+1;
@@ -282,7 +282,7 @@ class Reversi{
                             }
                         }
                         // position to the bottom left is black
-                        else if (board[i+1][j-1] == 'B'){
+                        if (board[i+1][j-1] == 'B'){
                             // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
                             int k = i+1;
                             int r = j-1;
@@ -296,7 +296,7 @@ class Reversi{
                             }
                         }
                         // position to the top left is black
-                        else if (board[i-1][j-1] == 'B'){
+                        if (board[i-1][j-1] == 'B'){
                             // check along the diagonal (below left) position and confirm that there is a white piece after consecutive white pieces
                             int k = i-1;
                             int r = j-1;
