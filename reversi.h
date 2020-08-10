@@ -106,6 +106,7 @@ class Reversi{
                                 if (board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                             }
@@ -118,6 +119,7 @@ class Reversi{
                                 if (board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                             }
@@ -130,6 +132,7 @@ class Reversi{
                                 if (board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                             }
@@ -142,6 +145,7 @@ class Reversi{
                                 if (board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                             }
@@ -155,6 +159,7 @@ class Reversi{
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                                 r++;
@@ -169,6 +174,7 @@ class Reversi{
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                                 r++;
@@ -183,6 +189,7 @@ class Reversi{
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                                 r--;
@@ -197,6 +204,7 @@ class Reversi{
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                                 r--;
@@ -213,6 +221,7 @@ class Reversi{
                                 if (board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                             }
@@ -225,6 +234,7 @@ class Reversi{
                                 if (board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                             }
@@ -237,6 +247,7 @@ class Reversi{
                                 if (board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                             }
@@ -249,6 +260,7 @@ class Reversi{
                                 if (board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                             }
@@ -262,6 +274,7 @@ class Reversi{
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                                 r++;
@@ -276,6 +289,7 @@ class Reversi{
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                                 r++;
@@ -290,6 +304,7 @@ class Reversi{
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k++;
                                 r--;
@@ -304,6 +319,7 @@ class Reversi{
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
+                                    goto afterLoop;
                                 }
                                 k--;
                                 r--;
@@ -311,6 +327,9 @@ class Reversi{
                         }
                     }
                 }
+                // end of loop for each position
+                afterLoop:;
+                
             }
         }
 
@@ -728,47 +747,45 @@ class Reversi{
 
     void play (){
 
-    int choice = validate_first_or_second();
-   
-        if(choice == 1){
-            cout << "You are going first! " << endl;
-            int player_choice_1;
-            int player_choice_2;
-            int available_moves_1[64];
-            int move_count = 0;
-            int state_check;
+        int choice = validate_first_or_second();
+    
+            if(choice == 1){
+                cout << "You are going first! " << endl;
+                int player_choice_1;
+                int player_choice_2;
+                int available_moves_1[64];
+                int move_count = 0;
+                int state_check = 0;
 
-            while((num_of_valid_moves != 0) || (state_check == 0)){
+                while ((state_check == 0)){
 
-              // First player goes 
-              player_choice_1 = valid_player_choice('b');
-              make_move(player_choice_1, 'b');
+                // First player goes 
+                player_choice_1 = valid_player_choice('b');
+                make_move(player_choice_1, 'b');
 
-              cout << "This is the current board state: "<<endl;
-              printBoard();
+                cout << "This is the current board state: "<<endl;
+                printBoard();
 
-              //Second player goes
-               player_choice_2 = valid_player_choice('w');
-               make_move(player_choice_2, 'w');
+                //Second player goes
+                player_choice_2 = valid_player_choice('w');
+                make_move(player_choice_2, 'w');
 
-              cout << "This is the current board state: "<<endl;
-              printBoard();
-               
-               state_check = game_state();
+                cout << "This is the current board state: "<<endl;
+                printBoard();
+                
+                state_check = game_state();
+
+                }
+
+                
+            }
+
+            if(choice == 2){
+            cout << "You are going second! " << endl;
 
             }
 
-            
-
-            
         }
-
-        if(choice == 2){
-        cout << "You are going second! " << endl;
-
-        }
-
-    }
 
 
 };
