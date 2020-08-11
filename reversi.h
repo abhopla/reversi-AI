@@ -673,10 +673,46 @@ class Reversi{
     // if black win returns 1
     // if white win returns 2
     // if tie return 3
+<<<<<<< HEAD
     int playout_game_state(char playout_board[8][9]){
+=======
+    int game_state(char color){
+>>>>>>> 1889bfcb5a58ddec20282858dbbb8ae0075d1d00
 
         int blk = 0;
         int whi = 0;
+
+        legal_moves(color);
+
+
+        // Check is the number of valid moves is 
+        // 0 
+        if(num_of_valid_moves == 0){
+            for (int i=0; i<8; i++){
+                for (int j=0; j<8; j++){
+
+                    if (board[i][j] == 'B'){
+                        blk++;
+                    }
+                    else if (board[i][j] == 'W'){
+                        whi++;
+                    }
+                }
+            }
+
+            if(blk > whi){
+              return 1;
+
+            }
+            else if(blk < whi){
+              return 2;
+            }
+            else if(blk == whi){
+              return 3;
+            }
+
+          
+        }
 
         // go through every position, if blank found return 0, otherwise count white and black tiles
         for (int i=0; i<8; i++){
@@ -977,6 +1013,7 @@ class Reversi{
     }
 
 
+<<<<<<< HEAD
 
     // make_move but for random playouts on copy_board
     void playouts_make_move(int position, char color, char playout_board[8][9]){
@@ -1246,6 +1283,39 @@ class Reversi{
 
 
 
+=======
+    // Checks what type of AI the user wants to play against
+    int ai_choice(){
+      int choice;
+      cout << "Please choose whether you would like to play against the Pure MCTS (1) or the heuritic based MCTS (2) (1/2):  ";
+      int check = 0;
+
+      // This while loop is checking for invalid types 
+      while(check == 0){
+        while(!(cin >> choice)){
+          cout << "Invalid type of argument! Please enter an integer to proceed: ";
+          cin.clear();
+          cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        if((choice == 1) || (choice == 2)){
+          check = 1;
+          break;
+        }
+
+        cout << "Invalid input please enter (1/2): ";
+
+
+      }
+
+
+      return choice;      
+
+
+
+    }
+
+>>>>>>> 1889bfcb5a58ddec20282858dbbb8ae0075d1d00
     // Checks whether the player wants to go first or second 
     // and validates the input 
     // sends back their answer 
@@ -1280,13 +1350,17 @@ class Reversi{
 
     // Purpose of this function is to validate 
     // player moves 
-    // it needs the move and the color of their chips  
+    // it needs the color of their chips  
     int valid_player_choice(int color){
       int * legal_move_arr = legal_moves(color);
       int count = 0;
       int move = 0;
       int num_check = 0;
       int toggle = 0;
+
+      // if(num_of_valid_moves == 0){
+      //   return 0;
+      // }
 
 
       cout << "These are the legal moves you are allowed to make: ";
@@ -1384,23 +1458,40 @@ class Reversi{
     void play (){
 
         int choice = validate_first_or_second();
+        int ai_type = ai_choice();
     
             if(choice == 1){
                 cout << "You are going first! " << endl;
                 int player_choice_1;
                 int player_choice_2;
+<<<<<<< HEAD
                 int move_count = 0;
+=======
+>>>>>>> 1889bfcb5a58ddec20282858dbbb8ae0075d1d00
                 int state_check = 0;
 
-                while ((state_check == 0)){
+                while (state_check == 0){
+                
 
+<<<<<<< HEAD
                     // First player goes 
                     player_choice_1 = valid_player_choice('b');
                     make_move(player_choice_1, 'b');
+=======
+                state_check = game_state('b');
+
+                if(state_check != 0){
+                  break;
+                }
+                // First player goes 
+                player_choice_1 = valid_player_choice('b');
+                make_move(player_choice_1, 'b');
+>>>>>>> 1889bfcb5a58ddec20282858dbbb8ae0075d1d00
 
                     cout << "This is the current board state: "<<endl;
                     printBoard();
 
+<<<<<<< HEAD
                     //Second player goes
                     player_choice_2 = valid_player_choice('w');
                     make_move(player_choice_2, 'w');
@@ -1409,7 +1500,38 @@ class Reversi{
                     printBoard();
                     
                     state_check = game_state();
+=======
+                // if(ai_type == 1){
+                //   cout << "you are playing against the pure MCTS"<<endl;
+                // } else if(ai_type == 2){
+                //   cout << "you are playing against the heuristic based MCTS"<<endl;
+                // }
 
+                state_check = game_state('w');
+                if(state_check != 0){
+                  break;
+                }
+                //Second player goes
+                player_choice_2 = valid_player_choice('w');
+                make_move(player_choice_2, 'w');
+
+
+                cout << "This is the current board state: "<<endl;
+                printBoard();
+
+                
+>>>>>>> 1889bfcb5a58ddec20282858dbbb8ae0075d1d00
+
+                }
+
+                if(state_check == 1){
+                  cout << "Black chip wins! " <<endl;
+                } 
+                else if(state_check == 2){
+                  cout << "White chip wins! " <<endl;
+                }
+                else if(state_check == 3){
+                  cout << "The game is a tie";
                 }
 
                 
