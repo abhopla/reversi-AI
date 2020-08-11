@@ -11,14 +11,14 @@ using namespace std;
 class Reversi{
 
     public:
-    char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
-                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+    char board[8][9] = { {' ', ' ', 'W', ' ', ' ', ' ', ' ', 'W', '\0'}, 
+                                {' ', ' ', ' ', 'W', ' ', ' ', 'B', 'W', '\0'},
+                                {'W', 'W', 'W', 'B', 'W', 'B', 'B', 'W', '\0'},
+                                {' ', ' ', ' ', 'W', 'B', 'B', ' ', ' ', '\0'},
+                                {' ', ' ', ' ', 'B', 'W', 'B', ' ', ' ', '\0'},
+                                {' ', ' ', ' ', ' ', ' ', 'B', ' ', ' ', '\0'},
+                                {' ', ' ', ' ', ' ', ' ', 'B', 'W', ' ', '\0'},
+                                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
     char copy_board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
@@ -120,6 +120,9 @@ class Reversi{
                             // check along the right of the position and confirm that there is a black piece after consecutive white pieces
                             int k = j+1;
                             while(k < 9){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -133,6 +136,9 @@ class Reversi{
                             // check along the left of the position and confirm that there is a black piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -146,6 +152,9 @@ class Reversi{
                             // check along below the position and confirm that there is a black piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -159,6 +168,9 @@ class Reversi{
                             // check along above the position and confirm that there is a black piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -173,6 +185,9 @@ class Reversi{
                             int k = i+1;
                             int r = j+1;
                             while(k < 8 && r < 8 ){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -188,6 +203,9 @@ class Reversi{
                             int k = i-1;
                             int r = j+1;
                             while(k >= 0 && r < 8){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -203,6 +221,9 @@ class Reversi{
                             int k = i+1;
                             int r = j-1;
                             while(k < 8 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -218,6 +239,9 @@ class Reversi{
                             int k = i-1;
                             int r = j-1;
                             while(k >= 0 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -235,6 +259,9 @@ class Reversi{
                             // check along the right of the position and confirm that there is a white piece after consecutive white pieces
                             int k = j+1;
                             while(k < 8){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -248,6 +275,9 @@ class Reversi{
                             // check along the left of the position and confirm that there is a white piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -261,6 +291,9 @@ class Reversi{
                             // check along below the position and confirm that there is a white piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -274,6 +307,9 @@ class Reversi{
                             // check along above the position and confirm that there is a white piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -288,6 +324,9 @@ class Reversi{
                             int k = i+1;
                             int r = j+1;
                             while(k < 8 && r < 8 ){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -303,6 +342,9 @@ class Reversi{
                             int k = i-1;
                             int r = j+1;
                             while(k >= 0 && r < 8){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -318,6 +360,9 @@ class Reversi{
                             int k = i+1;
                             int r = j-1;
                             while(k < 8 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -333,6 +378,9 @@ class Reversi{
                             int k = i-1;
                             int r = j-1;
                             while(k >= 0 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -780,7 +828,7 @@ class Reversi{
 
     // take user position input and place it on game board
     // make corresponding piece changes based on move
-    void make_move(int position, int color){
+    void make_move(int position, char color){
         int * coordinates;
 
         coordinates = positionParse(position);
