@@ -438,6 +438,9 @@ class Reversi{
                             // check along the right of the position and confirm that there is a black piece after consecutive white pieces
                             int k = j+1;
                             while(k < 9){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (playout_board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -451,6 +454,9 @@ class Reversi{
                             // check along the left of the position and confirm that there is a black piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (playout_board[i][k] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -464,6 +470,9 @@ class Reversi{
                             // check along below the position and confirm that there is a black piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -477,6 +486,9 @@ class Reversi{
                             // check along above the position and confirm that there is a black piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][j] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -491,6 +503,9 @@ class Reversi{
                             int k = i+1;
                             int r = j+1;
                             while(k < 8 && r < 8 ){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -506,6 +521,9 @@ class Reversi{
                             int k = i-1;
                             int r = j+1;
                             while(k >= 0 && r < 8){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -521,6 +539,9 @@ class Reversi{
                             int k = i+1;
                             int r = j-1;
                             while(k < 8 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -536,6 +557,9 @@ class Reversi{
                             int k = i-1;
                             int r = j-1;
                             while(k >= 0 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'B'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -553,6 +577,9 @@ class Reversi{
                             // check along the right of the position and confirm that there is a white piece after consecutive white pieces
                             int k = j+1;
                             while(k < 8){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (playout_board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -566,6 +593,9 @@ class Reversi{
                             // check along the left of the position and confirm that there is a white piece after consecutive white pieces
                             int k = j-1;
                             while(k >= 0){
+                                if (board[i][k] == ' '){
+                                    break;
+                                }
                                 if (playout_board[i][k] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -579,6 +609,9 @@ class Reversi{
                             // check along below the position and confirm that there is a white piece after consecutive white pieces
                             int k = i+1;
                             while(k < 8){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -592,6 +625,9 @@ class Reversi{
                             // check along above the position and confirm that there is a white piece after consecutive white pieces
                             int k = i-1;
                             while(k >= 0){
+                                if (board[k][j] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][j] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -606,6 +642,9 @@ class Reversi{
                             int k = i+1;
                             int r = j+1;
                             while(k < 8 && r < 8 ){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -621,6 +660,9 @@ class Reversi{
                             int k = i-1;
                             int r = j+1;
                             while(k >= 0 && r < 8){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -636,6 +678,9 @@ class Reversi{
                             int k = i+1;
                             int r = j-1;
                             while(k < 8 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -651,6 +696,9 @@ class Reversi{
                             int k = i-1;
                             int r = j-1;
                             while(k >= 0 && r >= 0){
+                                if (board[k][r] == ' '){
+                                    break;
+                                }
                                 if (playout_board[k][r] == 'W'){
                                     moves_list[count] = coordinates(i, j);
                                     count++;
@@ -842,6 +890,9 @@ class Reversi{
             if (board[y-1][x] == 'W'){
                 int k = y-1;
                 while ( k >=0 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (board[k][x] == 'B'){
                         while (k < y){
                             board[k+1][x] = 'B';
@@ -857,6 +908,9 @@ class Reversi{
                 int k = y-1;
                 int r = x+1;
                 while ( k >=0 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'B'){
                         while (k < y && r > x){
                             board[k+1][r-1] = 'B';
@@ -873,6 +927,9 @@ class Reversi{
             if (board[y][x+1] == 'W'){
                 int k = x+1;
                 while ( k < 8 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (board[y][k] == 'B'){
                         while (k > x){
                             board[y][k-1] = 'B';
@@ -888,6 +945,9 @@ class Reversi{
                 int k = y+1;
                 int r = x+1;
                 while ( k < 8 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'B'){
                         while (k > y && r > x){
                             board[k-1][r-1] = 'B';
@@ -904,6 +964,9 @@ class Reversi{
             if (board[y+1][x] == 'W'){
                 int k = y+1;
                 while ( k < 8 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (board[k][x] == 'B'){
                         while (k > y){
                             board[k-1][x] = 'B';
@@ -919,6 +982,9 @@ class Reversi{
                 int k = y+1;
                 int r = x-1;
                 while ( k < 8 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'B'){
                         while (k > y && r < x){
                             board[k-1][r+1] = 'B';
@@ -935,6 +1001,9 @@ class Reversi{
             if (board[y][x-1] == 'W'){
                 int k = x-1;
                 while ( k >= 0 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (board[y][k] == 'B'){
                         while (k < x){
                             board[y][k+1] = 'B';
@@ -950,6 +1019,9 @@ class Reversi{
                 int k = y-1;
                 int r = x-1;
                 while ( k >= 0 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'B'){
                         while (k < y && r < x){
                             board[k+1][r+1] = 'B';
@@ -969,6 +1041,9 @@ class Reversi{
             if (board[y-1][x] == 'B'){
                 int k = y-1;
                 while ( k >=0 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (board[k][x] == 'W'){
                         while (k < y){
                             board[k+1][x] = 'W';
@@ -984,6 +1059,9 @@ class Reversi{
                 int k = y-1;
                 int r = x+1;
                 while ( k >=0 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'W'){
                         while (k < y && r > x){
                             board[k+1][r-1] = 'W';
@@ -1000,6 +1078,9 @@ class Reversi{
             if (board[y][x+1] == 'B'){
                 int k = x+1;
                 while ( k < 8 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (board[y][k] == 'W'){
                         while (k > x){
                             board[y][k-1] = 'W';
@@ -1015,6 +1096,9 @@ class Reversi{
                 int k = y+1;
                 int r = x+1;
                 while ( k < 8 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'W'){
                         while (k > y && r > x){
                             board[k-1][r-1] = 'W';
@@ -1031,6 +1115,9 @@ class Reversi{
             if (board[y+1][x] == 'B'){
                 int k = y+1;
                 while ( k < 8 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (board[k][x] == 'W'){
                         while (k > y){
                             board[k-1][x] = 'W';
@@ -1046,6 +1133,9 @@ class Reversi{
                 int k = y+1;
                 int r = x-1;
                 while ( k < 8 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'W'){
                         while (k > y && r < x){
                             board[k-1][r+1] = 'W';
@@ -1062,6 +1152,9 @@ class Reversi{
             if (board[y][x-1] == 'B'){
                 int k = x-1;
                 while ( k >= 0 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (board[y][k] == 'W'){
                         while (k < x){
                             board[y][k+1] = 'W';
@@ -1077,6 +1170,9 @@ class Reversi{
                 int k = y-1;
                 int r = x-1;
                 while ( k >= 0 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (board[k][r] == 'W'){
                         while (k < y && r < x){
                             board[k+1][r+1] = 'W';
@@ -1109,6 +1205,9 @@ class Reversi{
             if (playout_board[y-1][x] == 'W'){
                 int k = y-1;
                 while ( k >=0 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (playout_board[k][x] == 'B'){
                         while (k < y){
                             playout_board[k+1][x] = 'B';
@@ -1124,6 +1223,9 @@ class Reversi{
                 int k = y-1;
                 int r = x+1;
                 while ( k >=0 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'B'){
                         while (k < y && r > x){
                             playout_board[k+1][r-1] = 'B';
@@ -1140,6 +1242,9 @@ class Reversi{
             if (playout_board[y][x+1] == 'W'){
                 int k = x+1;
                 while ( k < 8 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (playout_board[y][k] == 'B'){
                         while (k > x){
                             playout_board[y][k-1] = 'B';
@@ -1155,6 +1260,9 @@ class Reversi{
                 int k = y+1;
                 int r = x+1;
                 while ( k < 8 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'B'){
                         while (k > y && r > x){
                             playout_board[k-1][r-1] = 'B';
@@ -1171,6 +1279,9 @@ class Reversi{
             if (playout_board[y+1][x] == 'W'){
                 int k = y+1;
                 while ( k < 8 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (playout_board[k][x] == 'B'){
                         while (k > y){
                             playout_board[k-1][x] = 'B';
@@ -1186,6 +1297,9 @@ class Reversi{
                 int k = y+1;
                 int r = x-1;
                 while ( k < 8 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'B'){
                         while (k > y && r < x){
                             playout_board[k-1][r+1] = 'B';
@@ -1202,6 +1316,9 @@ class Reversi{
             if (playout_board[y][x-1] == 'W'){
                 int k = x-1;
                 while ( k >= 0 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (playout_board[y][k] == 'B'){
                         while (k < x){
                             playout_board[y][k+1] = 'B';
@@ -1217,6 +1334,9 @@ class Reversi{
                 int k = y-1;
                 int r = x-1;
                 while ( k >= 0 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'B'){
                         while (k < y && r < x){
                             playout_board[k+1][r+1] = 'B';
@@ -1236,6 +1356,9 @@ class Reversi{
             if (playout_board[y-1][x] == 'B'){
                 int k = y-1;
                 while ( k >=0 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (playout_board[k][x] == 'W'){
                         while (k < y){
                             playout_board[k+1][x] = 'W';
@@ -1251,6 +1374,9 @@ class Reversi{
                 int k = y-1;
                 int r = x+1;
                 while ( k >=0 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'W'){
                         while (k < y && r > x){
                             playout_board[k+1][r-1] = 'W';
@@ -1267,6 +1393,9 @@ class Reversi{
             if (playout_board[y][x+1] == 'B'){
                 int k = x+1;
                 while ( k < 8 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (playout_board[y][k] == 'W'){
                         while (k > x){
                             playout_board[y][k-1] = 'W';
@@ -1282,6 +1411,9 @@ class Reversi{
                 int k = y+1;
                 int r = x+1;
                 while ( k < 8 && r < 8){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'W'){
                         while (k > y && r > x){
                             playout_board[k-1][r-1] = 'W';
@@ -1298,6 +1430,9 @@ class Reversi{
             if (playout_board[y+1][x] == 'B'){
                 int k = y+1;
                 while ( k < 8 ){
+                    if (board[k][x] == ' '){
+                        break;
+                    }
                     if (playout_board[k][x] == 'W'){
                         while (k > y){
                             playout_board[k-1][x] = 'W';
@@ -1313,6 +1448,9 @@ class Reversi{
                 int k = y+1;
                 int r = x-1;
                 while ( k < 8 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'W'){
                         while (k > y && r < x){
                             playout_board[k-1][r+1] = 'W';
@@ -1329,6 +1467,9 @@ class Reversi{
             if (playout_board[y][x-1] == 'B'){
                 int k = x-1;
                 while ( k >= 0 ){
+                    if (board[y][k] == ' '){
+                        break;
+                    }
                     if (playout_board[y][k] == 'W'){
                         while (k < x){
                             playout_board[y][k+1] = 'W';
@@ -1344,6 +1485,9 @@ class Reversi{
                 int k = y-1;
                 int r = x-1;
                 while ( k >= 0 && r >= 0){
+                    if (board[k][r] == ' '){
+                        break;
+                    }
                     if (playout_board[k][r] == 'W'){
                         while (k < y && r < x){
                             playout_board[k+1][r+1] = 'W';
