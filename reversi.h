@@ -11,14 +11,14 @@ using namespace std;
 class Reversi{
 
     public:
-    char board[8][9] = { {' ', ' ', 'W', ' ', ' ', ' ', ' ', 'W', '\0'}, 
-                                {' ', ' ', ' ', 'W', ' ', ' ', 'B', 'W', '\0'},
-                                {'W', 'W', 'W', 'B', 'W', 'B', 'B', 'W', '\0'},
-                                {' ', ' ', ' ', 'W', 'B', 'B', ' ', ' ', '\0'},
-                                {' ', ' ', ' ', 'B', 'W', 'B', ' ', ' ', '\0'},
-                                {' ', ' ', ' ', ' ', ' ', 'B', ' ', ' ', '\0'},
-                                {' ', ' ', ' ', ' ', ' ', 'B', 'W', ' ', '\0'},
-                                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+    char board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
     char copy_board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
@@ -1636,7 +1636,9 @@ class Reversi{
             int ties = 0;
             int losses = 0;
 
-            for (int k=0; k<1000; k++){
+            // Temporarily changing the random playouts
+            // for testing 
+            for (int k=0; k<3000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1702,11 +1704,11 @@ class Reversi{
 
             }
 
-            cout << "Record for " << moves[i] << endl;
-            cout << "wins: " << wins << endl;
-            cout << "losses: " << losses << endl;
-            cout << "ties: " << ties << endl;
-            cout << endl;
+            // cout << "Record for " << moves[i] << endl;
+            // cout << "wins: " << wins << endl;
+            // cout << "losses: " << losses << endl;
+            // cout << "ties: " << ties << endl;
+            // cout << endl;
 
             int combined_score = wins + ties;
 
@@ -1763,12 +1765,16 @@ class Reversi{
                     if(state_check != 0){
                         break;
                     }
+                    cout << "It's the AI's turn! "<<endl;
+                    cout << endl;
                     //Second player goes
-                    player_choice_2 = valid_player_choice('w');
+                    player_choice_2 = playouts('w');
+                    cout << "The AI picked: "<< player_choice_2 << endl;
                     make_move(player_choice_2, 'w');
 
 
                     cout << "This is the current board state: "<<endl;
+                    cout << endl;
                     printBoard();
 
                 
@@ -1797,8 +1803,3 @@ class Reversi{
 
 
 };
-
-
-
-
-
