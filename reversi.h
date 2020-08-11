@@ -1623,7 +1623,8 @@ class Reversi{
 
 
     // take board state and player color and return best move
-    int playouts(char color){
+    // Pure Monte-Carlo Tree Search Implementation
+    int playouts_pure(char color){
         
         int *moves = legal_moves(color);
         int score = 0;
@@ -1638,7 +1639,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<3000; k++){
+            for (int k=0; k<15000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1725,6 +1726,119 @@ class Reversi{
 
 
 
+    // take board state and player color and return best move
+    // Monte-Carlo Tree Search Heuristic Implementation
+    int playouts_heur(char color){
+        
+        int *moves = legal_moves(color);
+        int score = 0;
+        int choice;
+
+        // loop through each of the current valid moves
+        for (int i=0; i<num_of_valid_moves; i++){
+
+            int wins = 0;
+            int ties = 0;
+            int losses = 0;
+
+            // Temporarily changing the random playouts
+            // for testing 
+            for (int k=0; k<15000; k++){
+
+                // make copy_board reflect the curent state of the board
+                for (int i=0; i<8; i++){
+                    for (int j=0; j<9; j++){
+                        copy_board[i][j] = board[i][j];
+                    }
+                }
+
+                // make move of the current valid move
+                playouts_make_move(moves[i], color, copy_board);
+
+                // switch player color
+                char curr_player_col = color;
+                if (curr_player_col == 'b'){
+                        curr_player_col = 'w';
+                    }
+                else if ( curr_player_col == 'w'){
+                    curr_player_col = 'b';
+                }
+
+
+                // while game is not over
+                while(playouts_game_state(curr_player_col, copy_board) == 0){
+
+                    // get all legal moves 
+                    int *move_options = playouts_legal_moves(curr_player_col, copy_board);
+
+                    // play random position
+                    int RandIndex = rand() % playouts_valid_moves;
+                    playouts_make_move(move_options[RandIndex], curr_player_col, copy_board);
+
+                    // switch colors for next move
+                    if (curr_player_col == 'b'){
+                        curr_player_col = 'w';
+                    }
+                    else if ( curr_player_col == 'w'){
+                        curr_player_col = 'b';
+                    }
+
+                }
+
+                if (playouts_game_state(curr_player_col, copy_board) == 1){
+                    if (color == 'b'){
+                        wins++;
+                    }
+                    else if (color == 'w'){
+                        losses++;
+                    }
+                }
+                else if (playouts_game_state(curr_player_col, copy_board) == 2){
+                    if (color == 'w'){
+                        wins++;
+                    }
+                    else if (color == 'b'){
+                        losses++;
+                    }
+                }
+                else if (playouts_game_state(curr_player_col, copy_board) == 3){
+                    ties++;
+                }
+
+                
+
+            }
+
+            // cout << "Record for " << moves[i] << endl;
+            // cout << "wins: " << wins << endl;
+            // cout << "losses: " << losses << endl;
+            // cout << "ties: " << ties << endl;
+            // cout << endl;
+
+            int combined_score = wins + ties;
+
+            // if any valid move is a corner piece, add 100k points essentially choosing that position
+            for(int i=0; i<num_of_valid_moves; i++){
+                if (moves[i] == 0 || moves[i] == 7 || moves[i] == 56 || moves[i] == 63){
+                    combined_score = combined_score + 100000;
+                }
+            }
+
+            cout << "Score for " << moves[i] << ": " << combined_score << endl;
+
+            if (combined_score > score){
+                score = combined_score;
+                choice = moves[i];
+            }
+
+        }
+
+        return choice; 
+
+    }
+
+
+
     // Function to determine how to play the game 
     // Gives the user the choice of going first 
     // or second 
@@ -1768,7 +1882,7 @@ class Reversi{
                     cout << "It's the AI's turn! "<<endl;
                     cout << endl;
                     //Second player goes
-                    player_choice_2 = playouts('w');
+                    player_choice_2 = playouts_pure('w');
                     cout << "The AI picked: "<< player_choice_2 << endl;
                     make_move(player_choice_2, 'w');
 
