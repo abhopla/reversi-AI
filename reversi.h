@@ -1431,9 +1431,11 @@ class Reversi{
 
 
     // take board state and player color and return best move
-    void playouts(char color){
+    int playouts(char color){
         
         int *moves = legal_moves(color);
+        int score = 0;
+        int choice;
 
         // loop through each of the current valid moves
         for (int i=0; i<num_of_valid_moves; i++){
@@ -1514,14 +1516,23 @@ class Reversi{
             cout << "ties: " << ties << endl;
             cout << endl;
 
+            int combined_score = wins + ties;
+
+            if (combined_score > score){
+                score = combined_score;
+                choice = moves[i];
+            }
+
         }
+
+        return choice; 
 
     }
 
 
 
     // Function to determine how to play the game 
-    //Gives the user the choice of going first 
+    // Gives the user the choice of going first 
     // or second 
 
     void play (){
