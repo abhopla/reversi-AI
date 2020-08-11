@@ -19,6 +19,15 @@ class Reversi{
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
+    char copy_board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+
     int num_of_valid_moves = 0;
 
 
@@ -345,6 +354,278 @@ class Reversi{
     }
 
 
+
+
+    // legal_moves for the playouts copied board
+    int *playouts_legal_moves(char player, char playout_board[8][9]){
+
+        int count = 0;
+        static int moves_list[64];
+
+        // set all array values to -1
+        for (int i=0; i<64; i++){
+            moves_list[i] = -1;
+            // cout << moves_list[i] << " ";
+        }
+        
+        // iterate through every position on board
+        // i going down rows
+        for (int i=0; i<8; i++){
+            // j going left to right cols
+            for (int j=0; j<8; j++){
+                // check for empty position
+                if (check_position(j, i) == 1){
+                    // if player color is black
+                    if (player == 'b'){
+                        // position to the right is white
+                        if ( playout_board[i][j+1] == 'W'){
+                            // check along the right of the position and confirm that there is a black piece after consecutive white pieces
+                            int k = j+1;
+                            while(k < 9){
+                                if (playout_board[i][k] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                            }
+                        }
+                        // position to the left is white
+                        if (playout_board[i][j-1] == 'W'){
+                            // check along the left of the position and confirm that there is a black piece after consecutive white pieces
+                            int k = j-1;
+                            while(k >= 0){
+                                if (playout_board[i][k] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                            }
+                        }
+                        // position below is white
+                        if (playout_board[i+1][j] == 'W'){
+                            // check along below the position and confirm that there is a black piece after consecutive white pieces
+                            int k = i+1;
+                            while(k < 8){
+                                if (playout_board[k][j] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                            }
+                        }
+                        // position above is white
+                        if (playout_board[i-1][j] == 'W'){
+                            // check along above the position and confirm that there is a black piece after consecutive white pieces
+                            int k = i-1;
+                            while(k >= 0){
+                                if (playout_board[k][j] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                            }
+                        }
+                        // position to the bottom right is white
+                        if (playout_board[i+1][j+1] == 'W'){
+                            // check along the diagonal (below right) position and confirm that there is a black piece after consecutive white pieces
+                            int k = i+1;
+                            int r = j+1;
+                            while(k < 8 && r < 8 ){
+                                if (playout_board[k][r] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                                r++;
+                            }
+                        }
+                        // position to the top right is white
+                        if (playout_board[i-1][j+1] == 'W'){
+                            // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
+                            int k = i-1;
+                            int r = j+1;
+                            while(k >= 0 && r < 8){
+                                if (playout_board[k][r] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                                r++;
+                            }
+                        }
+                        // position to the bottom left is white
+                        if (playout_board[i+1][j-1] == 'W'){
+                            // check along the diagonal (above right) position and confirm that there is a black piece after consecutive white pieces
+                            int k = i+1;
+                            int r = j-1;
+                            while(k < 8 && r >= 0){
+                                if (playout_board[k][r] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                                r--;
+                            }
+                        }
+                        // position to the top left is white
+                        if (playout_board[i-1][j-1] == 'W'){
+                            // check along the diagonal (below left) position and confirm that there is a black piece after consecutive white pieces
+                            int k = i-1;
+                            int r = j-1;
+                            while(k >= 0 && r >= 0){
+                                if (playout_board[k][r] == 'B'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                                r--;
+                            }
+                        }
+                    }
+                    // if player color is white
+                    else if (player == 'w'){
+                        // position to the right is black
+                        if ( playout_board[i][j+1] == 'B'){
+                            // check along the right of the position and confirm that there is a white piece after consecutive white pieces
+                            int k = j+1;
+                            while(k < 8){
+                                if (playout_board[i][k] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                            }
+                        }
+                        // position to the left is black
+                        if (playout_board[i][j-1] == 'B'){
+                            // check along the left of the position and confirm that there is a white piece after consecutive white pieces
+                            int k = j-1;
+                            while(k >= 0){
+                                if (playout_board[i][k] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                            }
+                        }
+                        // position below is black
+                        if (playout_board[i+1][j] == 'B'){
+                            // check along below the position and confirm that there is a white piece after consecutive white pieces
+                            int k = i+1;
+                            while(k < 8){
+                                if (playout_board[k][j] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                            }
+                        }
+                        // position above is black
+                        if (playout_board[i-1][j] == 'B'){
+                            // check along above the position and confirm that there is a white piece after consecutive white pieces
+                            int k = i-1;
+                            while(k >= 0){
+                                if (playout_board[k][j] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                            }
+                        }
+                        // position to the bottom right is black
+                        if (playout_board[i+1][j+1] == 'B'){
+                            // check along the diagonal (below right) position and confirm that there is a white piece after consecutive white pieces
+                            int k = i+1;
+                            int r = j+1;
+                            while(k < 8 && r < 8 ){
+                                if (playout_board[k][r] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                                r++;
+                            }
+                        }
+                        // position to the top right is black
+                        if (playout_board[i-1][j+1] == 'B'){
+                            // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
+                            int k = i-1;
+                            int r = j+1;
+                            while(k >= 0 && r < 8){
+                                if (playout_board[k][r] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                                r++;
+                            }
+                        }
+                        // position to the bottom left is black
+                        if (playout_board[i+1][j-1] == 'B'){
+                            // check along the diagonal (above right) position and confirm that there is a white piece after consecutive white pieces
+                            int k = i+1;
+                            int r = j-1;
+                            while(k < 8 && r >= 0){
+                                if (playout_board[k][r] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k++;
+                                r--;
+                            }
+                        }
+                        // position to the top left is black
+                        if (playout_board[i-1][j-1] == 'B'){
+                            // check along the diagonal (below left) position and confirm that there is a white piece after consecutive white pieces
+                            int k = i-1;
+                            int r = j-1;
+                            while(k >= 0 && r >= 0){
+                                if (playout_board[k][r] == 'W'){
+                                    moves_list[count] = coordinates(i, j);
+                                    count++;
+                                    goto afterLoop;
+                                }
+                                k--;
+                                r--;
+                            }
+                        }
+                    }
+                }
+                // end of loop for each position
+                afterLoop:;
+                
+            }
+        }
+
+        num_of_valid_moves = count;
+        // cout << "this is the number of moves " << num_of_valid_moves << endl;
+        static int *valid_moves = new int[count];
+
+        for (int i=0; i<count; i++){
+            valid_moves[i] = moves_list[i];
+        }
+
+        return valid_moves;
+    }
+
+
+
+
     // check to see if game is complete
     // if game incomplete return 0 
     // if black win returns 1
@@ -366,6 +647,48 @@ class Reversi{
                     blk++;
                 }
                 else if (board[i][j] == 'W'){
+                    whi++;
+                }
+            }
+        }
+
+        if (blk > whi){
+            return 1;
+        }
+        else if (blk < whi){
+            return 2;
+        }
+        else if (blk == whi){
+            return 3;
+        }
+
+        return 0;
+
+    }
+
+
+
+    // check to see if simulated game is complete
+    // if game incomplete return 0 
+    // if black win returns 1
+    // if white win returns 2
+    // if tie return 3
+    int playout_game_state(char playout_board[8][9]){
+
+        int blk = 0;
+        int whi = 0;
+
+        // go through every position, if blank found return 0, otherwise count white and black tiles
+        for (int i=0; i<8; i++){
+            for (int j=0; j<8; j++){
+                
+                if (playout_board[i][j] == ' '){
+                    return 0;
+                }
+                else if (playout_board[i][j] == 'B'){
+                    blk++;
+                }
+                else if (playout_board[i][j] == 'W'){
                     whi++;
                 }
             }
@@ -653,6 +976,276 @@ class Reversi{
         }
     }
 
+
+
+    // make_move but for random playouts on copy_board
+    void playouts_make_move(int position, char color, char playout_board[8][9]){
+        int * coordinates;
+
+        coordinates = positionParse(position);
+
+        int y = coordinates[0];
+        int x = coordinates[1];
+
+        //if player making move is player black
+        if (color == 'b'){
+            // check position above
+            if (playout_board[y-1][x] == 'W'){
+                int k = y-1;
+                while ( k >=0 ){
+                    if (playout_board[k][x] == 'B'){
+                        while (k < y){
+                            playout_board[k+1][x] = 'B';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top right diagonal
+            if (playout_board[y-1][x+1] == 'W'){
+                int k = y-1;
+                int r = x+1;
+                while ( k >=0 && r < 8){
+                    if (playout_board[k][r] == 'B'){
+                        while (k < y && r > x){
+                            playout_board[k+1][r-1] = 'B';
+                            k++;
+                            r--;
+                        }
+                        break;
+                    }
+                    k--;
+                    r++;
+                }
+            }
+            //check position right
+            if (playout_board[y][x+1] == 'W'){
+                int k = x+1;
+                while ( k < 8 ){
+                    if (playout_board[y][k] == 'B'){
+                        while (k > x){
+                            playout_board[y][k-1] = 'B';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom right diagonal
+            if (playout_board[y+1][x+1] == 'W'){
+                int k = y+1;
+                int r = x+1;
+                while ( k < 8 && r < 8){
+                    if (playout_board[k][r] == 'B'){
+                        while (k > y && r > x){
+                            playout_board[k-1][r-1] = 'B';
+                            k--;
+                            r--;
+                        }
+                        break;
+                    }
+                    k++;
+                    r++;
+                }
+            }
+            //check position below 
+            if (playout_board[y+1][x] == 'W'){
+                int k = y+1;
+                while ( k < 8 ){
+                    if (playout_board[k][x] == 'B'){
+                        while (k > y){
+                            playout_board[k-1][x] = 'B';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom left diagonal 
+            if (playout_board[y+1][x-1] == 'W'){
+                int k = y+1;
+                int r = x-1;
+                while ( k < 8 && r >= 0){
+                    if (playout_board[k][r] == 'B'){
+                        while (k > y && r < x){
+                            playout_board[k-1][r+1] = 'B';
+                            k--;
+                            r++;
+                        }
+                        break;
+                    }
+                    k++;
+                    r--;
+                }
+            }
+            //check position left  
+            if (playout_board[y][x-1] == 'W'){
+                int k = x-1;
+                while ( k >= 0 ){
+                    if (playout_board[y][k] == 'B'){
+                        while (k < x){
+                            playout_board[y][k+1] = 'B';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top left diagonal 
+            if (playout_board[y-1][x-1] == 'W'){
+                int k = y-1;
+                int r = x-1;
+                while ( k >= 0 && r >= 0){
+                    if (playout_board[k][r] == 'B'){
+                        while (k < y && r < x){
+                            playout_board[k+1][r+1] = 'B';
+                            k++;
+                            r++;
+                        }
+                        break;
+                    }
+                    k--;
+                    r--;
+                }
+            }
+        }
+        //if player making move is player white
+        else if(color == 'w'){
+            // check position above
+            if (playout_board[y-1][x] == 'B'){
+                int k = y-1;
+                while ( k >=0 ){
+                    if (playout_board[k][x] == 'W'){
+                        while (k < y){
+                            playout_board[k+1][x] = 'W';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top right diagonal
+            if (playout_board[y-1][x+1] == 'B'){
+                int k = y-1;
+                int r = x+1;
+                while ( k >=0 && r < 8){
+                    if (playout_board[k][r] == 'W'){
+                        while (k < y && r > x){
+                            playout_board[k+1][r-1] = 'W';
+                            k++;
+                            r--;
+                        }
+                        break;
+                    }
+                    k--;
+                    r++;
+                }
+            }
+            //check position right
+            if (playout_board[y][x+1] == 'B'){
+                int k = x+1;
+                while ( k < 8 ){
+                    if (playout_board[y][k] == 'W'){
+                        while (k > x){
+                            playout_board[y][k-1] = 'W';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom right diagonal
+            if (playout_board[y+1][x+1] == 'B'){
+                int k = y+1;
+                int r = x+1;
+                while ( k < 8 && r < 8){
+                    if (playout_board[k][r] == 'W'){
+                        while (k > y && r > x){
+                            playout_board[k-1][r-1] = 'W';
+                            k--;
+                            r--;
+                        }
+                        break;
+                    }
+                    k++;
+                    r++;
+                }
+            }
+            //check position below 
+            if (playout_board[y+1][x] == 'B'){
+                int k = y+1;
+                while ( k < 8 ){
+                    if (playout_board[k][x] == 'W'){
+                        while (k > y){
+                            playout_board[k-1][x] = 'W';
+                            k--;
+                        }
+                        break;
+                    }
+                    k++;
+                }
+            }
+            //check position bottom left diagonal 
+            if (playout_board[y+1][x-1] == 'B'){
+                int k = y+1;
+                int r = x-1;
+                while ( k < 8 && r >= 0){
+                    if (playout_board[k][r] == 'W'){
+                        while (k > y && r < x){
+                            playout_board[k-1][r+1] = 'W';
+                            k--;
+                            r++;
+                        }
+                        break;
+                    }
+                    k++;
+                    r--;
+                }
+            }
+            //check position left  
+            if (playout_board[y][x-1] == 'B'){
+                int k = x-1;
+                while ( k >= 0 ){
+                    if (playout_board[y][k] == 'W'){
+                        while (k < x){
+                            playout_board[y][k+1] = 'W';
+                            k++;
+                        }
+                        break;
+                    }
+                    k--;
+                }
+            }
+            //check position top left diagonal 
+            if (playout_board[y-1][x-1] == 'B'){
+                int k = y-1;
+                int r = x-1;
+                while ( k >= 0 && r >= 0){
+                    if (playout_board[k][r] == 'W'){
+                        while (k < y && r < x){
+                            playout_board[k+1][r+1] = 'W';
+                            k++;
+                            r++;
+                        }
+                        break;
+                    }
+                    k--;
+                    r--;
+                }
+            }
+        }
+    }
+
+
+
+
     // Checks whether the player wants to go first or second 
     // and validates the input 
     // sends back their answer 
@@ -726,16 +1319,59 @@ class Reversi{
           cout << "Invalid input please try again: ";
         }
 
-        
-
-
       } 
-
-      
-
 
       return move;
 
+    }
+
+
+
+
+    // take board state and player color and return best move
+    void playouts(char color){
+        
+        int *moves = legal_moves(color);
+        int playout_num = 100;
+
+        // loop through each of the current valid moves
+        for (int i=0; i<num_of_valid_moves; i++){
+
+            // make copy_board reflect the curent state of the board
+            for (int i=0; i<8; i++){
+                for (int j=0; j<9; j++){
+                    copy_board[i][j] = board[i][j];
+                }
+            }
+
+            playouts_make_move(moves[i], color, copy_board);
+
+            // // make a copy of the curent state of the board
+            // char new_board[8][9];
+            // for (int i=0; i<8; i++){
+            //     for (int j=0; j<9; j++){
+            //         new_board[i][j] = board[i][j];
+            //     }
+            // }
+
+            char curr_player_col = color;
+
+            // game is not over
+            while(){
+
+
+                if (curr_player_col == 'b'){
+                    curr_player_col = 'w';
+                }
+                else if ( curr_player_col == 'w'){
+                    curr_player_col = 'b'
+                }
+            }
+
+            
+
+
+        }
 
     }
 
@@ -753,27 +1389,26 @@ class Reversi{
                 cout << "You are going first! " << endl;
                 int player_choice_1;
                 int player_choice_2;
-                int available_moves_1[64];
                 int move_count = 0;
                 int state_check = 0;
 
                 while ((state_check == 0)){
 
-                // First player goes 
-                player_choice_1 = valid_player_choice('b');
-                make_move(player_choice_1, 'b');
+                    // First player goes 
+                    player_choice_1 = valid_player_choice('b');
+                    make_move(player_choice_1, 'b');
 
-                cout << "This is the current board state: "<<endl;
-                printBoard();
+                    cout << "This is the current board state: "<<endl;
+                    printBoard();
 
-                //Second player goes
-                player_choice_2 = valid_player_choice('w');
-                make_move(player_choice_2, 'w');
+                    //Second player goes
+                    player_choice_2 = valid_player_choice('w');
+                    make_move(player_choice_2, 'w');
 
-                cout << "This is the current board state: "<<endl;
-                printBoard();
-                
-                state_check = game_state();
+                    cout << "This is the current board state: "<<endl;
+                    printBoard();
+                    
+                    state_check = game_state();
 
                 }
 
