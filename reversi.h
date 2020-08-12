@@ -61,6 +61,30 @@ class Reversi{
         }
     }
 
+    int count_black_tiles(){
+      int black = 0;
+        for (int i=0; i<8; i++){
+          for (int j=0; j<9; j++){
+            if(board[i][j] == 'B'){
+              black ++;
+            }    
+        }
+      }
+      return black;
+    }
+
+    int count_white_tiles(){
+      int white = 0;
+        for (int i=0; i<8; i++){
+          for (int j=0; j<9; j++){
+            if(board[i][j] == 'W'){
+              white ++;
+            }    
+        }
+      }
+      return white;
+    }
+
 
     // checks if input place has a piece already at position.
     // return 1 for position availible, 0 for position already taken 
@@ -2095,6 +2119,8 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                int black_tiles = 0;
+                int white_tiles = 0;
                 printBoard();
 
                 //While the game is still going 
@@ -2147,6 +2173,10 @@ class Reversi{
                         printBoard();
                         cout << endl;
                         cout << "The 'O' character tells you which moves you are allowed to play on the board" <<endl;
+                        black_tiles = count_black_tiles();                      
+                        white_tiles = count_white_tiles();
+                        cout << endl;
+                        cout << "The current board state is: " << black_tiles << " black tiles and " << white_tiles<<" white tiles" << endl;
                         cout << endl;
                         clear_board ();
                     }
@@ -2177,6 +2207,8 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                int black_tiles = 0;
+                int white_tiles = 0;
 
                 while (state_check == 0){
                     int valid_checks = 0;
@@ -2200,6 +2232,10 @@ class Reversi{
                       printBoard();
                       cout << endl;
                       cout << "The 'O' character tells you which moves you are allowed to play on the board" <<endl;
+                      black_tiles = count_black_tiles();                      
+                      white_tiles = count_white_tiles();
+                      cout << endl;
+                      cout << "The current board state is: " << black_tiles << " black tiles and " << white_tiles<<" white tiles" << endl;
                       cout << endl;
                       clear_board ();
 
