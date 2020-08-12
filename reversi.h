@@ -2095,6 +2095,7 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                printBoard();
 
                 //While the game is still going 
                 while (state_check == 0){
