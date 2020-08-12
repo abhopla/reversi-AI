@@ -1536,7 +1536,7 @@ class Reversi{
     // Checks what type of AI the user wants to play against
     int ai_first_or_second(){
       int choice;
-      cout << "Please choose whether you would like to play against the Pure MCTS should go 1st or 2nd (1/2):  ";
+      cout << "Please choose whether the Pure MCTS should go 1st or 2nd (1/2):  ";
       int check = 0;
 
       // This while loop is checking for invalid types 
@@ -1568,7 +1568,7 @@ class Reversi{
     // sends back their answer 
     int validate_first_or_second(){
       int choice;
-      cout << "Please choose whether you would like to 1st or 2nd or have the AI's play against each other(3)! (1/2/3):  ";
+      cout << "Please choose whether you would like to go 1st or 2nd or have the AI's play against each other(3)! (1/2/3):  ";
       int check = 0;
 
       // This while loop is checking for invalid types 
@@ -1758,7 +1758,7 @@ class Reversi{
     int playouts_heur(char color){
         
         int *moves = legal_moves(color);
-        int score = 0;
+        int score = -99999999;
         int choice;
 
         // loop through each of the current valid moves
@@ -1845,13 +1845,22 @@ class Reversi{
             int combined_score = wins + ties;
 
             // if any valid move is a corner piece, add 100k points essentially choosing that position
-            for(int i=0; i<num_of_valid_moves; i++){
-                if (moves[i] == 0 || moves[i] == 7 || moves[i] == 56 || moves[i] == 63){
-                    combined_score = combined_score + 100000;
-                }
+            if (moves[i] == 0 || moves[i] == 7 || moves[i] == 56 || moves[i] == 63){
+                combined_score = combined_score + 100000;
             }
 
-            cout << "Score for " << moves[i] << ": " << combined_score << endl;
+            // if a valid move is one space from corner spot, decrease points
+            if (moves[i] == 1 || moves[i] == 8 || moves[i] == 9 || moves[i] == 6 || moves[i] == 14 || moves[i] == 15 || moves[i] == 48 || moves[i] == 49 || moves[i] == 57 || moves[i] == 54 || moves[i] == 55 || moves[i] == 62){
+                combined_score = combined_score - 100000;
+            }
+
+            // // if a valid move is two space off from the corner as an edge, increase points
+            // if (moves[i] == 2 || moves[i] == 5 || moves[i] == 16 || moves[i] == 23 || moves[i] == 40 || moves[i] == 47 || moves[i] == 58 || moves[i] == 611 ){
+            //     combined_score = combined_score + 50000;
+            // }
+            
+
+            // cout << "Score for " << moves[i] << ": " << combined_score << endl;
 
             if (combined_score > score){
                 score = combined_score;
