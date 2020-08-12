@@ -2145,6 +2145,8 @@ class Reversi{
                         cout << "This is the current board state: "<<endl;
                         printBoard();
                         cout << endl;
+                        cout << "The 'O' character tells you which moves you are allowed to play on the board" <<endl;
+                        cout << endl;
                         clear_board ();
                     }
 
@@ -2195,6 +2197,8 @@ class Reversi{
                       show_poss_moves('w');
                       cout << "This is the current board state: "<<endl;
                       printBoard();
+                      cout << endl;
+                      cout << "The 'O' character tells you which moves you are allowed to play on the board" <<endl;
                       cout << endl;
                       clear_board ();
 
