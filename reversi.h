@@ -727,6 +727,8 @@ class Reversi{
         return curr_moves;
     }
 
+
+
    int num_of_tiles (){
      int blk = 0;
      int whi = 0;
@@ -750,7 +752,7 @@ class Reversi{
           return 3;
         }
 
-
+        return 4;
    }
 
 
@@ -1536,6 +1538,7 @@ class Reversi{
     }
 
 
+
     // Checks which implementation should go first
     // in Ai vs Ai matches
     int ai_first_or_second(){
@@ -1674,7 +1677,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<15000; k++){
+            for (int k=0; k<10000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1782,7 +1785,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<15000; k++){
+            for (int k=0; k<10000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
