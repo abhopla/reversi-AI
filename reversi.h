@@ -20,6 +20,16 @@ class Reversi{
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
 
+    // Attribute made for the ai_vs_ai method 
+    char start_board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
+                              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', 'W', 'B', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', 'B', 'W', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+                              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, };
+
     char copy_board[8][9] = { {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'}, 
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
                             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
@@ -1912,40 +1922,45 @@ class Reversi{
     int total_matches = num_of_playouts;
 
     while(i != num_of_playouts){
+      // Reset the board for each playout 
+      for (int i=0; i<8; i++){
+          for (int j=0; j<9; j++){
+              board[i][j] = start_board[i][j];
+          }
+      }
       while(state_check == 0){
-        int valid_checks = 0;
-        state_check = game_state('b');
+          int valid_checks = 0;
+          state_check = game_state('b');
 
-        if(num_of_valid_moves == 0){
+          if(num_of_valid_moves == 0){
             valid_checks ++;
-        } else{
-            if(ai_time == 1){
+          } else{
+              if(ai_time == 1){
                 player_choice_1 = playouts_pure('b');
-            }
-
-            if(ai_time == 2){
+              } 
+              if(ai_time == 2){
                 player_choice_1 = playouts_heur('b');
-            }
+              }
 
-            make_move(player_choice_1, 'b');
-        }
+              make_move(player_choice_1, 'b');
+          }
 
-        state_check = game_state('w');
-        if(num_of_valid_moves == 0){
-            if(valid_checks == 1){
+            state_check = game_state('w');
+            if(num_of_valid_moves == 0){
+              if(valid_checks == 1){
                 break;
-            }
+              }
 
-            }else{
-            if(ai_time == 1){
-                player_choice_2 = playouts_heur('w');
-            } 
+              }else{
+                if(ai_time == 1){
+                  player_choice_2 = playouts_heur('w');
+                } 
 
-            if(ai_time == 2){
-                player_choice_2 = playouts_pure('w');
-            }
-            make_move(player_choice_2, 'w');
-            }
+                if(ai_time == 2){
+                  player_choice_2 = playouts_pure('w');
+                }
+                make_move(player_choice_2, 'w');
+              }
 
 
             }
@@ -1979,6 +1994,12 @@ class Reversi{
 
       i ++;
     }
+    // Reset the original board
+      for (int k=0; k<8; k++){
+      for (int x=0; x<9; x++){
+          board[k][x] = start_board[k][x];
+        }
+      }
 
     cout << "These are the pure_wins " << pure_wins << endl;
     cout << "These are the heur wins " << heur_wins << endl;
