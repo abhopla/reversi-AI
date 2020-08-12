@@ -1687,7 +1687,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<2000; k++){
+            for (int k=0; k<5000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1798,7 +1798,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<2000; k++){
+            for (int k=0; k<5000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1882,9 +1882,14 @@ class Reversi{
                 combined_score = combined_score - 100000;
             }
 
-            // // if a valid move is two space off from the corner as an edge, increase points
-            // if (moves[i] == 2 || moves[i] == 5 || moves[i] == 16 || moves[i] == 23 || moves[i] == 40 || moves[i] == 47 || moves[i] == 58 || moves[i] == 611 ){
-            //     combined_score = combined_score + 50000;
+            // if a valid move is two space off from the corner as an edge, increase points
+            if (moves[i] == 2 || moves[i] == 5 || moves[i] == 16 || moves[i] == 23 || moves[i] == 40 || moves[i] == 47 || moves[i] == 58 || moves[i] == 611 ){
+                combined_score = combined_score + 50000;
+            }
+
+            // // if a valid move is two space off from the corner in the middle, increase points
+            // if (moves[i] == 18 || moves[i] == 21 || moves[i] == 42 || moves[i] == 45){
+            //     combined_score = combined_score + 25000;
             // }
             
 
@@ -1906,7 +1911,7 @@ class Reversi{
     // play the pure and heuristic versions against each other
     // will print results of matches
     // user decides number of matches
-    void ai_vs_ai2(int num_of_playouts){
+    void ai_vs_ai(int num_of_playouts){
 
         int chosen = ai_first_or_second();
         int turn = chosen;
