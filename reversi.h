@@ -1671,8 +1671,8 @@ class Reversi{
     int playouts_pure(char color){
         
         int *moves = legal_moves(color);
-        int score = 0;
-        int choice;
+        int score = -999999;
+        int choice = 0;
 
         if(num_of_valid_moves == 1){
           return moves[0];
@@ -1687,7 +1687,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<100; k++){
+            for (int k=0; k<2000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1759,7 +1759,7 @@ class Reversi{
             // cout << "ties: " << ties << endl;
             // cout << endl;
 
-            int combined_score = wins + ties;
+            int combined_score = wins + ties - losses;
 
             if (combined_score > score){
                 score = combined_score;
@@ -1767,6 +1767,9 @@ class Reversi{
             }
 
         }
+
+        // cout << "choice: " << choice << endl;
+        cout << endl;
 
         return choice; 
 
@@ -1780,7 +1783,7 @@ class Reversi{
         
         int *moves = legal_moves(color);
         int score = -99999999;
-        int choice;
+        int choice = 0;
 
         if(num_of_valid_moves == 1){
           return moves[0];
@@ -1795,7 +1798,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<100; k++){
+            for (int k=0; k<2000; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1899,16 +1902,21 @@ class Reversi{
     }
 
 
-  
-    void ai_vs_ai(int num_of_playouts){
 
-        int turn = ai_first_or_second();
+    // play the pure and heuristic versions against each other
+    // will print results of matches
+    // user decides number of matches
+    void ai_vs_ai2(int num_of_playouts){
+
+        int chosen = ai_first_or_second();
+        int turn = chosen;
         char pure_color;
         char heur_color;
         int heur_wins = 0;
         int pure_wins = 0;
         int ties = 0;
 
+        // set colors based on which version was chose to go first
         if(turn == 1){
             pure_color = 'b';
             heur_color = 'w';
@@ -1918,6 +1926,7 @@ class Reversi{
             heur_color = 'b';
         }
 
+        // loop through for each match
         for(int i=0; i<num_of_playouts; i++){
 
             for(int j=0; j<8; j++){
@@ -1926,165 +1935,95 @@ class Reversi{
                 }
             }
 
+            int skip = 0;
+            int compare;
+            turn = chosen;
+
             // while game is not over
             while(game_state('b') == 0 && game_state('w') == 0){
 
+                cout << "turn: " << turn << endl;
+
+                if(skip > 1 && turn-compare == 1){
+                    cout << "no more valid moves, game over" << endl;
+                    break;
+                }
+ 
                 // if user chose pure to go first
                 if(turn%2 == 1){
+                    game_state(pure_color);
+                    // cout << "valid moves: " << num_of_valid_moves << endl;
+                    if (num_of_valid_moves == 0){
+                        skip++;
+                        compare = turn;
+                        turn++;
+                        // cout << "color:" << pure_color << "skip: " << skip << "compare: " << compare << "turn: " << turn << endl;
+                        continue;
+                    }
                     int pos = playouts_pure(pure_color);
+                    // cout << "pos: " << pos << endl;
                     make_move(pos, pure_color);
                 }
                 // if user chose heuristic to go first
                 else if(turn%2 == 0){
+                    game_state(heur_color);
+                    // cout << "valid moves: " << num_of_valid_moves << endl;
+                    if (num_of_valid_moves == 0){
+                        skip++;
+                        compare = turn;
+                        turn++;
+                        // cout << "color:" << heur_color << "skip: " << skip << "compare: " << compare << "turn: " << turn << endl;
+                        continue;
+                    }
                     int pos = playouts_heur(heur_color);
+                    // cout << "pos: " << pos << endl;
                     make_move(pos, heur_color);
                 }
+                skip = 0;
                 printBoard();
-                cout << "turn: " << turn << endl;
                 turn++;
             }
            
             // check result of completed game and record win, loss or tie     
-            int result = game_state('b');
+            int result = num_of_tiles();
 
-            if (result == 1){
-                if (pure_color == 'b'){
-                    pure_wins++;
+            if(chosen == 1){
+                if(result == 1){
+                    pure_wins ++;
+                }else if(result == 2){
+                    heur_wins ++;
+                }else if(result == 3){
+                    ties ++;
                 }
-                else if (heur_color == 'b'){
-                    heur_wins++;
+            } else if(chosen == 2){
+                if(result == 1){
+                    heur_wins ++;
+                }else if(result == 2){
+                    pure_wins ++;
+                }else if(result == 3){
+                    ties ++;
                 }
-            }
-            else if (result == 2){
-                if (pure_color == 'w'){
-                    pure_wins++;
-                }
-                else if (heur_color == 'w'){
-                    heur_wins++;
-                }
-            }
-            else if (result == 3){
-                ties++;
-            }
+            }   
 
         }
 
         cout << "Pure wins: " << pure_wins << endl;
-        cout << "Heur wins: " << pure_wins << endl;
-        cout << "Ties: " << pure_wins << endl;
+        cout << "Heur wins: " << heur_wins << endl;
+        cout << "Ties: " << ties << endl;
     };
+
+
  
-//     void ai_vs_ai(int num_of_playouts){
-
-//     int ai_time = ai_first_or_second();
-//     int player_choice_1;
-//     int player_choice_2;
-//     int state_check = 0;
-//     int heur_wins = 0;
-//     int pure_wins = 0;
-//     int ties = 0;
-//     int i = 0;
-//     int total_matches = num_of_playouts;
-
-//     while(i != num_of_playouts){
-//       // Reset the board for each playout 
-//       for (int i=0; i<8; i++){
-//           for (int j=0; j<9; j++){
-//               board[i][j] = start_board[i][j];
-//           }
-//       }
-//       while(state_check == 0){
-//           int valid_checks = 0;
-//           state_check = game_state('b');
-
-//           if(num_of_valid_moves == 0){
-//             valid_checks ++;
-//           } else{
-//               if(ai_time == 1){
-//                 player_choice_1 = playouts_pure('b');
-//               } 
-//               if(ai_time == 2){
-//                 player_choice_1 = playouts_heur('b');
-//               }
-
-//               make_move(player_choice_1, 'b');
-//           }
-
-//             state_check = game_state('w');
-//             if(num_of_valid_moves == 0){
-//               if(valid_checks == 1){
-//                 break;
-//               }
-
-//               }else{
-//                 if(ai_time == 1){
-//                   player_choice_2 = playouts_heur('w');
-//                 } 
-
-//                 if(ai_time == 2){
-//                   player_choice_2 = playouts_pure('w');
-//                 }
-//                 make_move(player_choice_2, 'w');
-//               }
-
-
-//             }
-//           state_check = num_of_tiles();
-
-//           if(ai_time == 1){
-//               if(state_check == 1){
-//                 pure_wins ++;
-//               } 
-//               else if(state_check == 2){
-//                 heur_wins ++;
-//               }
-//               else if(state_check == 3){
-//                 ties ++;
-//               }
-
-//           }
-
-//           if(ai_time == 2){
-//               if(state_check == 1){
-//                 heur_wins ++;
-//               } 
-//               else if(state_check == 2){
-//                 pure_wins ++;
-//               }
-//               else if(state_check == 3){
-//                 ties ++;
-//               }
-
-//           }
-
-//       i ++;
-//     }
-//     // Reset the original board
-//       for (int k=0; k<8; k++){
-//       for (int x=0; x<9; x++){
-//           board[k][x] = start_board[k][x];
-//         }
-//       }
-
-//     cout << "These are the pure_wins " << pure_wins << endl;
-//     cout << "These are the heur wins " << heur_wins << endl;
-//     cout << "These are the ties " << ties << endl;
-//     cout << "These are the total number of matches " << total_matches << endl;
-     
-//    }
-
-
     // Function to determine how to play the game 
     // Gives the user the choice of going first 
     // or second 
-
     void play (){
 
         int choice = validate_first_or_second();
 
 
 
-    
+            // If the player wants to go first 
             if(choice == 1){
                 int ai_type = ai_choice();
                 cout << "You are the black chip! " << endl;
@@ -2093,9 +2032,14 @@ class Reversi{
                 int player_choice_2;
                 int state_check = 0;
 
+                //While the game is still going 
                 while (state_check == 0){
                     int valid_checks = 0;
+
+                    //Check the state of the game 
                     state_check = game_state('b');
+
+                    // If valid moves are zero then skip to the next player 
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
                       valid_checks ++;
@@ -2154,6 +2098,7 @@ class Reversi{
                 
             }
 
+            // If the player wants to go second 
             if(choice == 2){
                 int ai_type = ai_choice();
                 cout << "You are the white chip! " << endl;
@@ -2226,78 +2171,80 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                int valid_checks = 0;
 
                 while(state_check == 0){
-                  int valid_checks = 0;
-                  state_check = game_state('b');
+                    valid_checks = 0;
+                    state_check = game_state('b');
 
-                  if(num_of_valid_moves == 0){
-                    cout << "There are no valid moves. Skipping turn!"<<endl;
-                    valid_checks ++;
-                  } else{
-                      if(ai_time == 1){
-                        cout << "It's the Pure MCTS Turn" << endl;
-                        cout << endl;
-                        player_choice_1 = playouts_pure('b');
-                      } 
-                      if(ai_time == 2){
-                        cout << "It's the Heuristic Based MCTS Turn" << endl;
-                        cout << endl;
-                        player_choice_1 = playouts_heur('b');
-                      }
-
-                      cout << "The AI picked: "<< player_choice_1 << endl;
-                      cout << endl;
-                      make_move(player_choice_1, 'b');
-                      cout << endl;
-                      cout << "This is the current board state: "<<endl;
-                      printBoard();
-                      cout << endl;
-                  }
-
-                    state_check = game_state('w');
                     if(num_of_valid_moves == 0){
-                      cout << "There are no valid moves. Skipping turn!"<<endl;
-
-                      if(valid_checks == 1){
-                        break;
-                      }
-
-                      }else{
+                        cout << "There are no valid moves. Skipping turn!"<<endl;
+                        valid_checks ++;
+                    } else{
                         if(ai_time == 1){
-                          cout << "It's the Heuristic Based MCTS Turn" << endl;
-                          cout << endl;
-                          player_choice_2 = playouts_heur('w');
+                            cout << "It's the Pure MCTS Turn" << endl;
+                            cout << endl;
+                            player_choice_1 = playouts_pure('b');
                         } 
-
                         if(ai_time == 2){
-                          cout << "It's the Pure MCTS Turn" << endl;
-                          cout << endl;
-                          player_choice_2 = playouts_pure('w');
+                            cout << "It's the Heuristic Based MCTS Turn" << endl;
+                            cout << endl;
+                            player_choice_1 = playouts_heur('b');
                         }
-                        cout << "The AI picked: "<< player_choice_2 << endl;
+
+                        cout << "The AI picked: "<< player_choice_1 << endl;
                         cout << endl;
-                        make_move(player_choice_2, 'w');
+                        make_move(player_choice_1, 'b');
                         cout << endl;
                         cout << "This is the current board state: "<<endl;
                         printBoard();
                         cout << endl;
-                      }
-
-
                     }
-                  state_check = num_of_tiles();
 
-                  if(ai_time == 1){
-                      if(state_check == 1){
-                        cout << "Pure MCTS Wins! " <<endl;
-                      } 
-                      else if(state_check == 2){
-                        cout << "Heuristic based MCTS Wins! "  <<endl;
-                      }
-                      else if(state_check == 3){
-                        cout << "The game is a tie!"<<endl;
-                      }
+                        state_check = game_state('w');
+                        if(num_of_valid_moves == 0){
+                        cout << "There are no valid moves. Skipping turn!"<<endl;
+                        valid_checks++;
+
+                        if(valid_checks == 2){
+                            break;
+                        }
+
+                        }else{
+                            if(ai_time == 1){
+                            cout << "It's the Heuristic Based MCTS Turn" << endl;
+                            cout << endl;
+                            player_choice_2 = playouts_heur('w');
+                            } 
+
+                            if(ai_time == 2){
+                            cout << "It's the Pure MCTS Turn" << endl;
+                            cout << endl;
+                            player_choice_2 = playouts_pure('w');
+                            }
+                            cout << "The AI picked: "<< player_choice_2 << endl;
+                            cout << endl;
+                            make_move(player_choice_2, 'w');
+                            cout << endl;
+                            cout << "This is the current board state: "<<endl;
+                            printBoard();
+                            cout << endl;
+                        }
+
+
+                        }
+                    state_check = num_of_tiles();
+
+                    if(ai_time == 1){
+                        if(state_check == 1){
+                            cout << "Pure MCTS Wins! " <<endl;
+                        } 
+                        else if(state_check == 2){
+                            cout << "Heuristic based MCTS Wins! "  <<endl;
+                        }
+                        else if(state_check == 3){
+                            cout << "The game is a tie!"<<endl;
+                        }
 
                   }
 
@@ -2321,3 +2268,7 @@ class Reversi{
 
 
 };
+
+
+
+
