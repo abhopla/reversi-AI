@@ -1899,6 +1899,95 @@ class Reversi{
   //  }
 
 
+   void ai_vs_ai(int num_of_playouts){
+
+    int ai_time = ai_first_or_second();
+    int player_choice_1;
+    int player_choice_2;
+    int state_check = 0;
+    int heur_wins = 0;
+    int pure_wins = 0;
+    int ties = 0;
+    int i = 0;
+    int total_matches = num_of_playouts;
+
+    while(i != num_of_playouts){
+      while(state_check == 0){
+        int valid_checks = 0;
+        state_check = game_state('b');
+
+        if(num_of_valid_moves == 0){
+            valid_checks ++;
+        } else{
+            if(ai_time == 1){
+                player_choice_1 = playouts_pure('b');
+            }
+
+            if(ai_time == 2){
+                player_choice_1 = playouts_heur('b');
+            }
+
+            make_move(player_choice_1, 'b');
+        }
+
+        state_check = game_state('w');
+        if(num_of_valid_moves == 0){
+            if(valid_checks == 1){
+                break;
+            }
+
+            }else{
+            if(ai_time == 1){
+                player_choice_2 = playouts_heur('w');
+            } 
+
+            if(ai_time == 2){
+                player_choice_2 = playouts_pure('w');
+            }
+            make_move(player_choice_2, 'w');
+            }
+
+
+            }
+          state_check = num_of_tiles();
+
+          if(ai_time == 1){
+              if(state_check == 1){
+                pure_wins ++;
+              } 
+              else if(state_check == 2){
+                heur_wins ++;
+              }
+              else if(state_check == 3){
+                ties ++;
+              }
+
+          }
+
+          if(ai_time == 2){
+              if(state_check == 1){
+                heur_wins ++;
+              } 
+              else if(state_check == 2){
+                pure_wins ++;
+              }
+              else if(state_check == 3){
+                ties ++;
+              }
+
+          }
+
+      i ++;
+    }
+
+    cout << "These are the pure_wins " << pure_wins << endl;
+    cout << "These are the heur wins " << heur_wins << endl;
+    cout << "These are the ties " << ties << endl;
+    cout << "These are the total number of matches " << total_matches << endl;
+     
+   }
+
+
     // Function to determine how to play the game 
     // Gives the user the choice of going first 
     // or second 
@@ -1917,10 +2006,9 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
-                int valid_checks = 0;
 
                 while (state_check == 0){
-                    valid_checks = 0;
+                    int valid_checks = 0;
                     state_check = game_state('b');
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
@@ -1940,9 +2028,7 @@ class Reversi{
                     state_check = game_state('w');
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
-                      valid_checks ++;
-
-                      if(valid_checks == 2){
+                      if(valid_checks == 1){
                         break;
                       }
 
@@ -1989,11 +2075,9 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
-                int valid_checks = 0;
 
                 while (state_check == 0){
-                
-                    valid_checks = 0;
+                    int valid_checks = 0;
                     state_check = game_state('b');
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
@@ -2018,8 +2102,7 @@ class Reversi{
                     state_check = game_state('w');
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
-                      valid_checks ++;
-                      if(valid_checks == 2){
+                      if(valid_checks == 1){
                         break;
                       }
                     } else{
@@ -2051,16 +2134,15 @@ class Reversi{
             }
 
             if(choice == 3){
-                cout << "The different implementation of AI will play against each other!" << endl;
+                cout << "The different implementations of AI will play against each other!" << endl;
                 cout << endl;
                 int ai_time = ai_first_or_second();
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
-                int valid_checks = 0;
 
                 while(state_check == 0){
-                  valid_checks = 0;
+                  int valid_checks = 0;
                   state_check = game_state('b');
 
                   if(num_of_valid_moves == 0){
@@ -2090,9 +2172,8 @@ class Reversi{
                     state_check = game_state('w');
                     if(num_of_valid_moves == 0){
                       cout << "There are no valid moves. Skipping turn!"<<endl;
-                      valid_checks ++;
 
-                      if(valid_checks == 2){
+                      if(valid_checks == 1){
                         break;
                       }
 
