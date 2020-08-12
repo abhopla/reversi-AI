@@ -727,6 +727,31 @@ class Reversi{
         return curr_moves;
     }
 
+   int num_of_tiles (){
+     int blk = 0;
+     int whi = 0;
+        // go through every position, if blank found return 0, otherwise count white and black tiles
+        for (int i=0; i<8; i++){
+            for (int j=0; j<8; j++){
+                if (board[i][j] == 'B'){
+                    blk++;
+                }
+                else if (board[i][j] == 'W'){
+                    whi++;
+                }
+            }
+        }
+
+        if(blk > whi){
+          return 1;
+        } else if(whi > blk){
+          return 2;
+        } else if(blk == whi){
+          return 3;
+        }
+
+
+   }
 
 
     // check to see if simulated game is complete
@@ -745,30 +770,8 @@ class Reversi{
         // Check is the number of valid moves is 
         // 0 
         if(num_of_valid_moves == 0){
-            for (int i=0; i<8; i++){
-                for (int j=0; j<8; j++){
-
-                    if (board[i][j] == 'B'){
-                        blk++;
-                    }
-                    else if (board[i][j] == 'W'){
-                        whi++;
-                    }
-                }
-            }
-
-            if(blk > whi){
-              return 1;
-
-            }
-            else if(blk < whi){
-              return 2;
-            }
-            else if(blk == whi){
-              return 3;
-            }
-
-          
+          return 0;
+         
         }
 
         // go through every position, if blank found return 0, otherwise count white and black tiles
@@ -1533,10 +1536,11 @@ class Reversi{
     }
 
 
-    // Checks what type of AI the user wants to play against
+    // Checks which implementation should go first
+    // in Ai vs Ai matches
     int ai_first_or_second(){
       int choice;
-      cout << "Please choose whether the Pure MCTS should go 1st or 2nd (1/2):  ";
+      cout << "Please choose which implementation should go first Pure MCTS(1) or the heuristic based MCTS(2) (1/2):  ";
       int check = 0;
 
       // This while loop is checking for invalid types 
@@ -1657,6 +1661,10 @@ class Reversi{
         int score = 0;
         int choice;
 
+        if(num_of_valid_moves == 1){
+          return moves[0];
+        }
+
         // loop through each of the current valid moves
         for (int i=0; i<num_of_valid_moves; i++){
 
@@ -1760,6 +1768,10 @@ class Reversi{
         int *moves = legal_moves(color);
         int score = -99999999;
         int choice;
+
+        if(num_of_valid_moves == 1){
+          return moves[0];
+        }
 
         // loop through each of the current valid moves
         for (int i=0; i<num_of_valid_moves; i++){
@@ -1874,6 +1886,15 @@ class Reversi{
     }
 
 
+  //  void ai_vs_ai(){
+
+
+
+
+
+     
+  //  }
+
 
     // Function to determine how to play the game 
     // Gives the user the choice of going first 
@@ -1883,60 +1904,67 @@ class Reversi{
 
         int choice = validate_first_or_second();
 
-        cout << endl;
-        int ai_type = ai_choice();
 
 
     
             if(choice == 1){
+                int ai_type = ai_choice();
                 cout << "You are the black chip! " << endl;
                 cout << endl;
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                int valid_checks = 0;
 
                 while (state_check == 0){
-                
-
+                    valid_checks = 0;
                     state_check = game_state('b');
-
-                    if(state_check != 0){
-                        break;
-                    }
-                    // PLayer goes first
-                    cout << "it's your turn!" << endl;
-                    cout << endl;
-                    player_choice_1 = valid_player_choice('b');
-                    make_move(player_choice_1, 'b');
-
+                    if(num_of_valid_moves == 0){
+                      cout << "There are no valid moves. Skipping turn!"<<endl;
+                      valid_checks ++;
+                        
+                    }else{
+                      // Player goes first
+                      cout << "it's your turn!" << endl;
+                      cout << endl;
+                      player_choice_1 = valid_player_choice('b');
+                      make_move(player_choice_1, 'b');
                       cout << "This is the current board state: "<<endl;
                       printBoard();
                       cout << endl;
+                    }
 
                     state_check = game_state('w');
-                    if(state_check != 0){
+                    if(num_of_valid_moves == 0){
+                      cout << "There are no valid moves. Skipping turn!"<<endl;
+                      valid_checks ++;
+
+                      if(valid_checks == 2){
                         break;
-                    }
-                    cout << "It's the AI's turn! "<<endl;
-                    cout << endl;
-                    //Second player goes
-                    if(ai_type == 1){
-                      player_choice_2 = playouts_pure('w');
-                    } else if(ai_type == 2){
-                      player_choice_2 = playouts_heur('w');
-                    }
-                    cout << "The AI picked: "<< player_choice_2 << endl;
-                    cout << endl;
-                    make_move(player_choice_2, 'w');
+                      }
 
+                    } else{
+                         cout << "It's the AI's turn! "<<endl;
+                         cout << endl;
+                        //Second player goes
+                        if(ai_type == 1){
+                          player_choice_2 = playouts_pure('w');
+                        } else if(ai_type == 2){
+                          player_choice_2 = playouts_heur('w');
+                        }
+                        cout << "The AI picked: "<< player_choice_2 << endl;
+                        cout << endl;
+                        make_move(player_choice_2, 'w');
 
-                    cout << "This is the current board state: "<<endl;
-                    printBoard();
-                    cout << endl;
+                        cout << "This is the current board state: "<<endl;
+                        printBoard();
+                        cout << endl;
+                    }
 
                 
 
                 }
+                state_check = num_of_tiles();
 
                 if(state_check == 1){
                   cout << "You Win! " <<endl;
@@ -1952,52 +1980,59 @@ class Reversi{
             }
 
             if(choice == 2){
+                int ai_type = ai_choice();
                 cout << "You are the white chip! " << endl;
                 cout << endl;
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
+                int valid_checks = 0;
 
                 while (state_check == 0){
                 
-
+                    valid_checks = 0;
                     state_check = game_state('b');
+                    if(num_of_valid_moves == 0){
+                      cout << "There are no valid moves. Skipping turn!"<<endl;
+                      valid_checks ++;
+                    } else{
+                      cout << endl;
+                      //AI goes first 
+                      if(ai_type == 1){
+                        player_choice_1 = playouts_pure('b');
+                      } else if(ai_type == 2){
+                        player_choice_1 = playouts_heur('b');
+                      }
+                      cout << "The AI picked: "<< player_choice_1 << endl;
+                      cout << endl;
+                      make_move(player_choice_1, 'b');
+                      cout << "This is the current board state: "<<endl;
+                      printBoard();
+                      cout << endl;
 
-                    if(state_check != 0){
-                        break;
                     }
-                    cout << "It's the AI's turn! "<<endl;
-                    cout << endl;
-                    //AI goes first 
-                    if(ai_type == 1){
-                      player_choice_1 = playouts_pure('b');
-                    } else if(ai_type == 2){
-                      player_choice_1 = playouts_heur('b');
-                    }
-                    cout << "The AI picked: "<< player_choice_1 << endl;
-                    cout << endl;
-                    make_move(player_choice_1, 'b');
-                    cout << "This is the current board state: "<<endl;
-                    printBoard();
-                    cout << endl;
 
                     state_check = game_state('w');
-                    if(state_check != 0){
+                    if(num_of_valid_moves == 0){
+                      cout << "There are no valid moves. Skipping turn!"<<endl;
+                      valid_checks ++;
+                      if(valid_checks == 2){
                         break;
+                      }
+                    } else{
+                      // Player goes second
+                      cout << "it's your turn!" << endl;
+                      cout << endl; 
+                      player_choice_2 = valid_player_choice('w');
+                      make_move(player_choice_2, 'w');
+                      cout << endl;
+                      cout << "This is the current board state: "<<endl;
+                      printBoard();
+                      cout << endl;
                     }
 
-
-                    // Player goes second
-                    cout << "it's your turn!" << endl;
-                    cout << endl; 
-                    player_choice_2 = valid_player_choice('w');
-                    make_move(player_choice_2, 'w');
-                    cout << endl;
-                    cout << "This is the current board state: "<<endl;
-                    printBoard();
-                    cout << endl;
-
                 }
+                state_check = num_of_tiles();
 
                 if(state_check == 1){
                   cout << "You Win! " <<endl;
@@ -2019,69 +2054,76 @@ class Reversi{
                 int player_choice_1;
                 int player_choice_2;
                 int state_check = 0;
-                int check = ai_time - 2;
-
-                cout << "this is the ai_time " << ai_time << endl;
-                cout << "this is the check " << check << endl;
-
+                int valid_checks = 0;
 
                 while(state_check == 0){
-
+                  valid_checks = 0;
                   state_check = game_state('b');
-                  if(state_check != 0){
-                          break;
-                    }
-                    if(ai_time == 1){
-                      cout << "It's the Pure MCTS Turn" << endl;
-                      cout << endl;
-                      player_choice_1 = playouts_pure('b');
-                    } 
-                    if(ai_time == 2){
-                      cout << "It's the Heuristic Based MCTS Turn" << endl;
-                      cout << endl;
-                      player_choice_1 = playouts_heur('b');
-                    }
 
-                    cout << "The AI picked: "<< player_choice_1 << endl;
-                    cout << endl;
-                    make_move(player_choice_1, 'b');
-                    cout << endl;
-                    cout << "This is the current board state: "<<endl;
-                    printBoard();
-                    cout << endl;
+                  if(num_of_valid_moves == 0){
+                    cout << "There are no valid moves. Skipping turn!"<<endl;
+                    valid_checks ++;
+                  } else{
+                      if(ai_time == 1){
+                        cout << "It's the Pure MCTS Turn" << endl;
+                        cout << endl;
+                        player_choice_1 = playouts_pure('b');
+                      } 
+                      if(ai_time == 2){
+                        cout << "It's the Heuristic Based MCTS Turn" << endl;
+                        cout << endl;
+                        player_choice_1 = playouts_heur('b');
+                      }
+
+                      cout << "The AI picked: "<< player_choice_1 << endl;
+                      cout << endl;
+                      make_move(player_choice_1, 'b');
+                      cout << endl;
+                      cout << "This is the current board state: "<<endl;
+                      printBoard();
+                      cout << endl;
+                  }
 
                     state_check = game_state('w');
-                    if(state_check != 0){
+                    if(num_of_valid_moves == 0){
+                      cout << "There are no valid moves. Skipping turn!"<<endl;
+                      valid_checks ++;
+
+                      if(valid_checks == 2){
                         break;
                       }
 
-                    if(ai_time == 1){
-                      cout << "It's the Heuristic Based MCTS Turn" << endl;
-                      cout << endl;
-                      player_choice_2 = playouts_heur('w');
-                    } 
+                      }else{
+                        if(ai_time == 1){
+                          cout << "It's the Heuristic Based MCTS Turn" << endl;
+                          cout << endl;
+                          player_choice_2 = playouts_heur('w');
+                        } 
 
-                    if(ai_time == 2){
-                      cout << "It's the Pure MCTS Turn" << endl;
-                      cout << endl;
-                      player_choice_2 = playouts_pure('w');
+                        if(ai_time == 2){
+                          cout << "It's the Pure MCTS Turn" << endl;
+                          cout << endl;
+                          player_choice_2 = playouts_pure('w');
+                        }
+                        cout << "The AI picked: "<< player_choice_2 << endl;
+                        cout << endl;
+                        make_move(player_choice_2, 'w');
+                        cout << endl;
+                        cout << "This is the current board state: "<<endl;
+                        printBoard();
+                        cout << endl;
+                      }
+
+
                     }
-                    cout << "The AI picked: "<< player_choice_2 << endl;
-                    cout << endl;
-                    make_move(player_choice_2, 'w');
-                    cout << endl;
-                    cout << "This is the current board state: "<<endl;
-                    printBoard();
-                    cout << endl;
-
-                }
+                  state_check = num_of_tiles();
 
                   if(ai_time == 1){
                       if(state_check == 1){
                         cout << "Pure MCTS Wins! " <<endl;
                       } 
                       else if(state_check == 2){
-                        cout << "Pure MCTS Looses! " <<endl;
+                        cout << "Heuristic based MCTS Wins! "  <<endl;
                       }
                       else if(state_check == 3){
                         cout << "The game is a tie!"<<endl;
@@ -2094,7 +2136,7 @@ class Reversi{
                         cout << "Heuristic based MCTS Wins! " <<endl;
                       } 
                       else if(state_check == 2){
-                        cout << "Heuristic based MCTS Looses! " <<endl;
+                        cout << "Pure MCTS Wins! " <<endl;
                       }
                       else if(state_check == 3){
                         cout << "The game is a tie!"<<endl;
