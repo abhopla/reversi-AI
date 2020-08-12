@@ -2060,30 +2060,28 @@ class Reversi{
         return choice;
     }
 
-    // void show_poss_moves(color){
-    //   int * legal_move_arr = legal_moves(color);
-    //   int move = 0;
-    //   int * pos; 
-
-    //   for(int i = 0; i < num_of_valid_moves; i++){
-    //     int move = legal_move_arr;
-    //     pos  = positionParse (move);      
-    //       for (int i=0; i<8; i++){
-    //         for (int j=0; j<9; j++){
-    //             if((i == pos[0]) && (j == pos[2])){
-    //               board[i][j] = 'O';
-    //             }    
-    //       }
-    //     }
-    //   }
-
-    // }
+    void welcome(){
+      cout << "This is our implementation of reversi "<< endl;
+      cout << "To play you must select the position you want on the board"<<endl;
+      cout<<"the positions on the board go from 0 at the top left to 63 at the bottom right"<<endl;
+      cout << "This is a representation of the positions on the board: "<<endl;
+      for(int i =0; i<64; i++){
+        cout << i << " ";
+        if((i == 7) || (i == 15) || (i == 22) || (i == 29) || (i == 36) || (i == 43) || (i == 50) || (i == 57)){
+          cout << endl;
+        }
+      }
+      cout << endl;
+      cout << "The 'O' character tells you which moves you are allowed to play on the board" <<endl;
+      cout << endl;
+    }
  
     // Function to determine how to play the game 
     // Gives the user the choice of going first 
     // or second 
     
     void play (){
+        // welcome();
 
         int choice = validate_first_or_second();
 
