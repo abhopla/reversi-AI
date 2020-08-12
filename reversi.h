@@ -1687,7 +1687,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<10000; k++){
+            for (int k=0; k<100; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1795,7 +1795,7 @@ class Reversi{
 
             // Temporarily changing the random playouts
             // for testing 
-            for (int k=0; k<10000; k++){
+            for (int k=0; k<100; k++){
 
                 // make copy_board reflect the curent state of the board
                 for (int i=0; i<8; i++){
@@ -1899,114 +1899,179 @@ class Reversi{
     }
 
 
-  //  void ai_vs_ai(){
+  
+    void ai_vs_ai(int num_of_playouts){
 
+        int turn = ai_first_or_second();
+        char pure_color;
+        char heur_color;
+        int heur_wins = 0;
+        int pure_wins = 0;
+        int ties = 0;
 
-
-
-
-     
-  //  }
-
-
-   void ai_vs_ai(int num_of_playouts){
-
-    int ai_time = ai_first_or_second();
-    int player_choice_1;
-    int player_choice_2;
-    int state_check = 0;
-    int heur_wins = 0;
-    int pure_wins = 0;
-    int ties = 0;
-    int i = 0;
-    int total_matches = num_of_playouts;
-
-    while(i != num_of_playouts){
-      // Reset the board for each playout 
-      for (int i=0; i<8; i++){
-          for (int j=0; j<9; j++){
-              board[i][j] = start_board[i][j];
-          }
-      }
-      while(state_check == 0){
-          int valid_checks = 0;
-          state_check = game_state('b');
-
-          if(num_of_valid_moves == 0){
-            valid_checks ++;
-          } else{
-              if(ai_time == 1){
-                player_choice_1 = playouts_pure('b');
-              } 
-              if(ai_time == 2){
-                player_choice_1 = playouts_heur('b');
-              }
-
-              make_move(player_choice_1, 'b');
-          }
-
-            state_check = game_state('w');
-            if(num_of_valid_moves == 0){
-              if(valid_checks == 1){
-                break;
-              }
-
-              }else{
-                if(ai_time == 1){
-                  player_choice_2 = playouts_heur('w');
-                } 
-
-                if(ai_time == 2){
-                  player_choice_2 = playouts_pure('w');
-                }
-                make_move(player_choice_2, 'w');
-              }
-
-
-            }
-          state_check = num_of_tiles();
-
-          if(ai_time == 1){
-              if(state_check == 1){
-                pure_wins ++;
-              } 
-              else if(state_check == 2){
-                heur_wins ++;
-              }
-              else if(state_check == 3){
-                ties ++;
-              }
-
-          }
-
-          if(ai_time == 2){
-              if(state_check == 1){
-                heur_wins ++;
-              } 
-              else if(state_check == 2){
-                pure_wins ++;
-              }
-              else if(state_check == 3){
-                ties ++;
-              }
-
-          }
-
-      i ++;
-    }
-    // Reset the original board
-      for (int k=0; k<8; k++){
-      for (int x=0; x<9; x++){
-          board[k][x] = start_board[k][x];
+        if(turn == 1){
+            pure_color = 'b';
+            heur_color = 'w';
         }
-      }
+        else if(turn == 2){
+            pure_color = 'w';
+            heur_color = 'b';
+        }
 
-    cout << "These are the pure_wins " << pure_wins << endl;
-    cout << "These are the heur wins " << heur_wins << endl;
-    cout << "These are the ties " << ties << endl;
-    cout << "These are the total number of matches " << total_matches << endl;
+        for(int i=0; i<num_of_playouts; i++){
+
+            for(int j=0; j<8; j++){
+                for(int k=0; k<9; k++){
+                    board[j][k] = start_board[j][k];
+                }
+            }
+
+            // while game is not over
+            while(game_state('b') == 0 && game_state('w') == 0){
+
+                // if user chose pure to go first
+                if(turn%2 == 1){
+                    int pos = playouts_pure(pure_color);
+                    make_move(pos, pure_color);
+                }
+                // if user chose heuristic to go first
+                else if(turn%2 == 0){
+                    int pos = playouts_heur(heur_color);
+                    make_move(pos, heur_color);
+                }
+                printBoard();
+                cout << "turn: " << turn << endl;
+                turn++;
+            }
+           
+            // check result of completed game and record win, loss or tie     
+            int result = game_state('b');
+
+            if (result == 1){
+                if (pure_color == 'b'){
+                    pure_wins++;
+                }
+                else if (heur_color == 'b'){
+                    heur_wins++;
+                }
+            }
+            else if (result == 2){
+                if (pure_color == 'w'){
+                    pure_wins++;
+                }
+                else if (heur_color == 'w'){
+                    heur_wins++;
+                }
+            }
+            else if (result == 3){
+                ties++;
+            }
+
+        }
+
+        cout << "Pure wins: " << pure_wins << endl;
+        cout << "Heur wins: " << pure_wins << endl;
+        cout << "Ties: " << pure_wins << endl;
+    };
+ 
+//     void ai_vs_ai(int num_of_playouts){
+
+//     int ai_time = ai_first_or_second();
+//     int player_choice_1;
+//     int player_choice_2;
+//     int state_check = 0;
+//     int heur_wins = 0;
+//     int pure_wins = 0;
+//     int ties = 0;
+//     int i = 0;
+//     int total_matches = num_of_playouts;
+
+//     while(i != num_of_playouts){
+//       // Reset the board for each playout 
+//       for (int i=0; i<8; i++){
+//           for (int j=0; j<9; j++){
+//               board[i][j] = start_board[i][j];
+//           }
+//       }
+//       while(state_check == 0){
+//           int valid_checks = 0;
+//           state_check = game_state('b');
+
+//           if(num_of_valid_moves == 0){
+//             valid_checks ++;
+//           } else{
+//               if(ai_time == 1){
+//                 player_choice_1 = playouts_pure('b');
+//               } 
+//               if(ai_time == 2){
+//                 player_choice_1 = playouts_heur('b');
+//               }
+
+//               make_move(player_choice_1, 'b');
+//           }
+
+//             state_check = game_state('w');
+//             if(num_of_valid_moves == 0){
+//               if(valid_checks == 1){
+//                 break;
+//               }
+
+//               }else{
+//                 if(ai_time == 1){
+//                   player_choice_2 = playouts_heur('w');
+//                 } 
+
+//                 if(ai_time == 2){
+//                   player_choice_2 = playouts_pure('w');
+//                 }
+//                 make_move(player_choice_2, 'w');
+//               }
+
+
+//             }
+//           state_check = num_of_tiles();
+
+//           if(ai_time == 1){
+//               if(state_check == 1){
+//                 pure_wins ++;
+//               } 
+//               else if(state_check == 2){
+//                 heur_wins ++;
+//               }
+//               else if(state_check == 3){
+//                 ties ++;
+//               }
+
+//           }
+
+//           if(ai_time == 2){
+//               if(state_check == 1){
+//                 heur_wins ++;
+//               } 
+//               else if(state_check == 2){
+//                 pure_wins ++;
+//               }
+//               else if(state_check == 3){
+//                 ties ++;
+//               }
+
+//           }
+
+//       i ++;
+//     }
+//     // Reset the original board
+//       for (int k=0; k<8; k++){
+//       for (int x=0; x<9; x++){
+//           board[k][x] = start_board[k][x];
+//         }
+//       }
+
+//     cout << "These are the pure_wins " << pure_wins << endl;
+//     cout << "These are the heur wins " << heur_wins << endl;
+//     cout << "These are the ties " << ties << endl;
+//     cout << "These are the total number of matches " << total_matches << endl;
      
-   }
+//    }
 
 
     // Function to determine how to play the game 
